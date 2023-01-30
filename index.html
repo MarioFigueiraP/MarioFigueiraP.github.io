@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="description" content="Documentation for Bayesian Statistics">
+    <meta name="author" content="Mario Figueira">
+    <title>Home :: Documentation</title>
+    <link href="./index.xml" rel="alternate" type="application/rss+xml" title="Home :: Documentation">
+    <link href="./index.print.html" rel="alternate" type="text/html" title="Home :: Documentation">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="./css/fontawesome-all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="./css/fontawesome-all.min.css" rel="stylesheet"></noscript>
+    <link href="./css/featherlight.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="./css/featherlight.min.css" rel="stylesheet"></noscript>
+    <link href="./css/auto-complete.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="./css/auto-complete.css" rel="stylesheet"></noscript>
+    <link href="./css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="./css/nucleus.css" rel="stylesheet">
+    <link href="./css/fonts.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="./css/fonts.css" rel="stylesheet"></noscript>
+    <link href="./css/theme.css" rel="stylesheet">
+    <link href="./css/theme-learn.css" rel="stylesheet" id="variant-style">
+    <link href="./css/ie.css" rel="stylesheet">
+    <link href="./css/variant.css" rel="stylesheet">
+    <link href="./css/print.css" rel="stylesheet" media="print">
+    <script src="./js/url.js"></script>
+    <script src="./js/variant.js"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="./index.search.js";
+      var root_url="./";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/MarioFigueiraP.github.io/';
+      window.variants && variants.init( [ 'learn', 'relearn-light', 'relearn-dark', 'neon', 'blue', 'green', 'red' ] );
+    </script>
+    <script src="./js/jquery.min.js" defer></script>
+  </head>
+  <body class="mobile-support html" data-url="./index.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable" dir="ltr">
+        <div>
+          <div class="navigation">
+            <a class="nav nav-next" href="./inla/index.html" title="INLA (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+          </div>
+          <div class="navigation">
+            <span class="nav nav-prev"><i class="fa fa-chevron-left fa-fw"></i></span>
+          </div>
+          <div id="top-print-link">
+            <a class="print-link" title='Print whole chapter (CTRL+ALT+p)' href="./index.print.html">
+              <i class="fas fa-print fa-fw"></i>
+            </a>
+          </div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Home</span><meta itemprop="position" content="1"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable home" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <div id="head-tags">
+          </div>
+          <article class="home deprecated">
+
+<h1 id="introduction">Introduction</h1>
+<p>In this <i>GitHub Page</i> it will exposed different questions related to Bayesian statistics and modeling with a double purposse. Firstly, as a way of organizing material that I am developing throughout different projects and the PhD Degree. Secondly, as a possible help for those interested in this field, in case this material has any value for it.</p>
+<p>The main topics that would be found here will be related to:</p>
+<ul>
+<li>INLA (Integrated Nested Laplace Approximation)</li>
+<li>MCMC (Markov Chain Monte Carlo)</li>
+<li>Hierarchical modeling</li>
+<li>Spatial modeling</li>
+<li>Temporal modeling</li>
+<li>Spatio-temporal modeling</li>
+<li>Shiny applications</li>
+</ul>
+<p>In order to adhere to a methodology in which the replicability and reproduction of the results obtained is absolutely mandatory, the version of the programming language, the programming environment for that language, along with the code and data used, are indicated at the beginning of each section. However, this alone may often be insufficient, so depending on the implemented code, it may be required to indicate the version of packages or libraries used in each case.</p>
+<h1 id="about-me">About me</h1>
+<table>
+<thead>
+<tr>
+<th><b> Summary </b></th>
+<th style="text-align:center"><b> A picture </b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>My name is Mario Figueira and I am a PhD student in <em>Statistics and Optimization</em> at the University of Valencia, specifically my line of research focuses on spatio-temporal Bayesian modeling.</td>
+<td style="text-align:center">
+		
+<a href="./photo_CV.png?classes=right&amp;width=12pc" data-featherlight="image">
+<img src="./photo_CV.png?classes=right&amp;width=12pc" alt="Photo_CV" class="right" style="height: auto; width: 12pc;" loading="lazy">
+</a></td>
+</tr>
+</tbody>
+</table>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="sidebar" class="default-animation showVisitedLinks" dir="ltr">
+      <div id="header-wrapper" class="default-animation">
+        <div id="header" class="default-animation">
+
+<a id="logo" href='./en'>
+	<img src="./media/logo.png" alt="logo.png">
+</a>
+        </div>
+        <form action="./search.html" method="get"><div class="searchbox default-animation">
+          <button type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="search-by">Search</label>
+          <input data-search-input id="search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <span data-search-clear=""><i class="fas fa-times"></i></span>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="./js/auto-complete.js" defer></script>
+        <script src="./js/lunr.min.js" defer></script>
+        <script src="./js/lunr.stemmer.support.min.js" defer></script>
+        <script src="./js/lunr.multi.min.js" defer></script>
+        <script src="./js/lunr.en.min.js" defer></script>
+        <script src="./js/search.js" defer></script>
+      </div>
+      <div id="content-wrapper" class="highlightable">
+        <ul class="topics collapsible-menu">
+          <li data-nav-id="/inla/index.html" class="dd-item"><input type="checkbox" id="section-98163e637131cd3bbb51a73a3fb5b277" aria-controls="subsections-98163e637131cd3bbb51a73a3fb5b277" class="toggle"><label class="a11y-only toggle" for="section-98163e637131cd3bbb51a73a3fb5b277" >Submenu INLA</label><a href="./inla/index.html"><b>1. </b>INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-98163e637131cd3bbb51a73a3fb5b277">
+          <li data-nav-id="/inla/basicoperationalinfo/index.html" class="dd-item"><input type="checkbox" id="section-d3e7d0cb7242c3aca0785bd47be27aee" aria-controls="subsections-d3e7d0cb7242c3aca0785bd47be27aee" class="toggle"><label class="a11y-only toggle" for="section-d3e7d0cb7242c3aca0785bd47be27aee" >Submenu Basic Operations</label><a href="./inla/basicoperationalinfo/index.html">Basic Operations<i class="fas fa-check read-icon"></i></a><ul id="subsections-d3e7d0cb7242c3aca0785bd47be27aee">
+          <li data-nav-id="/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item"><a href="./inla/basicoperationalinfo/linearmodels/index.html">Basic Linear Models<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/inla/basicoperationalinfo/meshes/index.html" class="dd-item"><a href="./inla/basicoperationalinfo/meshes/index.html">Mesh Construction<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/inla/basicoperationalinfo/stacks/index.html" class="dd-item"><a href="./inla/basicoperationalinfo/stacks/index.html">Stacks<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/inla/spatialmodels/index.html" class="dd-item"><input type="checkbox" id="section-269d7fa127035cc7956f8243f1288ee4" aria-controls="subsections-269d7fa127035cc7956f8243f1288ee4" class="toggle"><label class="a11y-only toggle" for="section-269d7fa127035cc7956f8243f1288ee4" >Submenu Spatial Models</label><a href="./inla/spatialmodels/index.html">Spatial Models<i class="fas fa-check read-icon"></i></a><ul id="subsections-269d7fa127035cc7956f8243f1288ee4">
+          <li data-nav-id="/inla/spatialmodels/geostatisticalmodel/index.html" class="dd-item"><a href="./inla/spatialmodels/geostatisticalmodel/index.html">Geostatistical Model<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/inla/spatialmodels/jointmodel_preferential/index.html" class="dd-item"><a href="./inla/spatialmodels/jointmodel_preferential/index.html">Preferential Model<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/inla/spatialmodels/spatialvaryingcoefficientmodel/index.html" class="dd-item"><a href="./inla/spatialmodels/spatialvaryingcoefficientmodel/index.html">SVC Model<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/inla/variousfunctions/index.html" class="dd-item"><input type="checkbox" id="section-d8419cc4cb8dd310e9c1565d3acac5de" aria-controls="subsections-d8419cc4cb8dd310e9c1565d3acac5de" class="toggle"><label class="a11y-only toggle" for="section-d8419cc4cb8dd310e9c1565d3acac5de" >Submenu Various Functions</label><a href="./inla/variousfunctions/index.html">Various Functions<i class="fas fa-check read-icon"></i></a><ul id="subsections-d8419cc4cb8dd310e9c1565d3acac5de">
+          <li data-nav-id="/inla/variousfunctions/inlatosp/index.html" class="dd-item"><a href="./inla/variousfunctions/inlatosp/index.html">Transformation to sp/sf<i class="fas fa-check read-icon"></i></a></li></ul></li></ul></li>
+        </ul>
+        <div id="shortcuts">
+          <div class="nav-title">More</div>
+          <ul>
+            <li><a class="padding" href="https://github.com/MarioFigueiraP.github.io/"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+          </ul>
+        </div>
+        <div class="footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showLangSwitch showVariantSwitch showVisitedLinks"></div>
+        <hr class="default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showLangSwitch showVariantSwitch showVisitedLinks">
+        <div id="prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showLangSwitch showVariantSwitch showVisitedLinks">
+          <ul>
+            <li id="select-language-container" class="footerLangSwitch showLangSwitch">
+              <div class="padding select-container">
+                <i class="fas fa-language fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <label class="a11y-only" for="select-language">Language</label>
+                  <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option lang="en" id="en" value="/index.html" selected>English</option>
+                    <option lang="es" id="es" value="/es/index.html">Español</option>
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </div>
+            </li>
+            <li id="select-variant-container" class="footerVariantSwitch showVariantSwitch">
+              <div class="padding select-container">
+                <i class="fas fa-paint-brush fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <label class="a11y-only" for="select-variant">Theme</label>
+                  <select id="select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                    <option id="learn" value="learn" selected>Learn</option>
+                    <option id="relearn-light" value="relearn-light">Relearn Light</option>
+                    <option id="relearn-dark" value="relearn-dark">Relearn Dark</option>
+                    <option id="neon" value="neon">Neon</option>
+                    <option id="blue" value="blue">Blue</option>
+                    <option id="green" value="green">Green</option>
+                    <option id="red" value="red">Red</option>
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </div>
+              <script>window.variants && variants.markSelectedVariant();</script>
+            </li>
+            <li class="footerVisitedLinks showVisitedLinks"><button class="padding" onclick="clearHistory();"><i class="fas fa-history fa-fw"></i> Clear History</button></li>
+          </ul>
+        </div>
+        <div id="footer" class="footerFooter">
+        </div>
+      </div>
+    </aside>
+    <script src="./js/clipboard.min.js" defer></script>
+    <script src="./js/perfect-scrollbar.min.js" defer></script>
+    <script src="./js/featherlight.min.js" defer></script>
+    <script src="./js/jquery.svg.pan.zoom.js" defer></script>
+    <script src="./js/mermaid.min.js" defer></script>
+    <script>
+      window.themeUseMermaid = JSON.parse("{ \"securityLevel\": \"loose\" }");
+    </script>
+    <script src="./js/theme.js" defer></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-105947713-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

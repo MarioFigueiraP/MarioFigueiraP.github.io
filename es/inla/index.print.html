@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="description" content="Documentation for Bayesian Statistics">
+    <meta name="author" content="Mario Figueira">
+    <title>INLA :: Documentación</title>
+    <link href="https://MarioFigueiraP.github.io/es/inla/index.html" rel="canonical" type="text/html" title="INLA :: Documentación">
+    <link href="../../es/inla/index.xml" rel="alternate" type="application/rss+xml" title="INLA :: Documentación">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../css/fontawesome-all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/fontawesome-all.min.css" rel="stylesheet"></noscript>
+    <link href="../../css/featherlight.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/featherlight.min.css" rel="stylesheet"></noscript>
+    <link href="../../css/auto-complete.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/auto-complete.css" rel="stylesheet"></noscript>
+    <link href="../../css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="../../css/nucleus.css" rel="stylesheet">
+    <link href="../../css/fonts.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/fonts.css" rel="stylesheet"></noscript>
+    <link href="../../css/theme.css" rel="stylesheet">
+    <link href="../../css/theme-learn.css" rel="stylesheet" id="variant-style">
+    <link href="../../css/ie.css" rel="stylesheet">
+    <link href="../../css/variant.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+    <link href="../../css/format-print.css" rel="stylesheet">
+    <script src="../../js/url.js"></script>
+    <script src="../../js/variant.js"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../es/index.search.js";
+      var root_url="../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copiar en el portapapeles';
+      window.T_Copied_to_clipboard = '¡Copiado al portapapeles!';
+      window.T_Copy_link_to_clipboard = 'Copiar enlace al portapapeles';
+      window.T_Link_copied_to_clipboard = '¡Enlace copiado al portapapeles!';
+      window.T_No_results_found = 'No se han encontrado resultados para \u0022{0}\u0022';
+      window.T_N_results_found = '{1} resultados encontrados para \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/MarioFigueiraP.github.io/';
+      window.variants && variants.init( [ 'learn', 'relearn-light', 'relearn-dark', 'neon', 'blue', 'green', 'red' ] );
+    </script>
+    <script src="../../js/jquery.min.js" defer></script>
+  </head>
+  <body class="mobile-support print" data-url="../../es/inla/index.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable" dir="ltr">
+        <div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" title='Menú (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../es/index.html"><span itemprop="name">Inicio</span></a><meta itemprop="position" content="1"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">INLA</span><meta itemprop="position" content="2"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable chapter narrow" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <div id="head-tags">
+          </div>
+          <article class="chapter deprecated">
+
+<h1 id="metodología-inla">Metodología INLA</h1>
+<p>Existen distintas metodologías para la computación de los procesos beyesianos de inferencia, métodos de simulación como MCMC (Markov chain Monte Carlo) o métodos aproximativos como VB (variational Bayes), todas ellas con sus dificultades propias. En particular, INLA (Integrated Nested Laplace Approximation) es un enfoque determinista aproximado, desarrollado por <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2008.00700.x">(Rue, Martino y Chopin, 2009)</a> y ampliado en (<a href="https://www.jstatsoft.org/article/view/v063i19">Lindgren y Rue, 2015</a>; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2937741">Rue y col., 2017</a>; <a href="https://wires.onlinelibrary.wiley.com/doi/abs/10.1002/wics.1443">Bakka y col., 2018</a>), que permite realizar la inferencia Bayesiana en un conjunto de modelos aditivos estructurados, denominados <em>modelos Gaussianos latentes</em> (LGMs).</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsecciones de INLA</h1>
+          <article class="default">
+<h1 id="funciones-varias">Funciones Varias</h1>
+
+<p>Aquí se expondran distintas funciones que se han ido desarrollando para su implementación en procesos automatizados o que puedan resultar de interés.</p>
+
+<ul class="children children-li children-sort-weight">
+	
+<li><a href="../../es/inla/variousfunctions/inlatosp/index.html">Transformación a sp/sf</a><p>Aquí definimos algunas funciones relativas a la transformación de un objeto inla.mesh a un objeto sp/sf.</p></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsecciones de Funciones Varias</h1>
+          <article class="default">
+<h1 id="transformaci%C3%B3n-a-sp/sf">Transformación a sp/sf</h1>
+
+
+<div class="box notices cstyle info">
+    <div class="box-label"><i class="fa-fw fas fa-info"></i> Información de versiones</div>
+    <div class="box-content">
+<p>En este rótulo inicial exponemos una lista con las versiones de los programas, sistema operativo y librearías con las que se ha ejecutado el código de la presente sección, lo cual se extrae principalmente mediante la función <code>sessionInfo()</code>.</p>
+<ul>
+<li>SO (version): Windows 11 Home (22H2).</li>
+<li>R: 4.2.2 (2022-10-31 ucrt).</li>
+<li>RStudio: 2022.07.2 (Build 576).</li>
+<li>Libraries:
+<ul>
+<li>INLA: INLA_22.05.07</li>
+<li>inlabru: inlabru_2.5.3</li>
+<li>sp: sp_1.5-0</li>
+<li>sf: sf_1.0-8</li>
+<li>ggplot: ggplot2_3.3.6</li>
+<li>viridis: viridis_0.6.2</li>
+</ul>
+</li>
+</ul>
+    </div>
+</div>
+<p>Puden darse casos en los que se requiera trabajar con elementos de <code>inla</code> como si fuesen objetos espaciales (usualmente <code>sp</code> o <code>sf</code>), esto será particularmente propia cuando se trabajen con las mallas o los bordes de las mismas. Sea cualesquiera los motivos por los que se requiera pasar la malla o los bordes de la misma a objetos espaciales, no se dispone de una función integrada en <code>library(INLA)</code>, por lo que se procederá a su definición.</p>
+<h2 id="malla-a-objeto-espacial">Malla a objeto espacial</h2>
+<p>Supongamos que partimos de un conjunto de puntos dados por el <em>data frame</em> <code>XY</code>, sobre el cual aplicamos la función <code>inla.nonconvex.hull</code> para obtener la frontera de nuestra malla, resultado de las operaciones morfológicas de dilatación y cierre incorporadas para la formación del borde exterior.</p>
+
+<span class="btn cstyle transparent">
+  <a href="../../es/inla/variousfunctions/inlatosp/index.html/XY.rds">
+    <i class="fas fa-download"></i>
+    Get <code>XY</code> data
+  </a>
+</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">INLA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">inlabru</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">XY</span> <span class="o">&lt;-</span> <span class="nf">readRDS</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s">&#34;XY.rds&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">INLAnonconvex</span> <span class="o">&lt;-</span> <span class="nf">inla.nonconvex.hull</span><span class="p">(</span><span class="n">XY</span><span class="p">,</span> <span class="n">convex</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="m">400</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">INLAnonconvexMesh</span> <span class="o">&lt;-</span> <span class="nf">inla.mesh.2d</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="n">INLAnonconvex</span><span class="p">,</span> <span class="n">max.edge</span><span class="o">=</span><span class="m">5000</span><span class="p">)</span>
+</span></span></code></pre></div><p>Si graficamos la malla <code>ggplot() + inlabru::gg(INLAnonconvexMesh) + theme_void()</code> obtendremos la siguiente figura:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><b>Fig. 1: INLA mesh with non convex boundary</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">
+		
+<a href="../../es/inla/variousfunctions/inlatosp/INLAmesh.png?&amp;width=25pc" data-featherlight="image">
+<img src="../../es/inla/variousfunctions/inlatosp/INLAmesh.png?&amp;width=25pc" alt="INLA_mesh_with_non_convex_boundary.png" style="height: auto; width: 25pc;" loading="lazy">
+</a></td>
+</tr>
+</tbody>
+</table>
+<p>Una vez se dispone de la malla, para transformar la teselación en un objeto espacial (<code>sp</code>) nos valemos de la información integrada en el objeto de la malla (<code>mesh</code>). Concretamente en las filas de la matriz <code>mesh$graph$tv</code>, que almacenan las posiciones de los vértices para cada i-ésimo triángulo. De esta forma, simplemente inscribimos los índices de los vértices para cada triángulo en la matriz de coordenadas de los propios vértices, formando un polígono con cada uno y agrupandando finalmente el resultado en un objeto <code>SpatialPolygons</code>, o en un  Esto queda sintetizado en la siguiente función:</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="sp"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','sp')"
+      ><span>sp</span></button>
+    <button
+      data-tab-item="sf"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','sf')"
+      ><span>sf</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="sp" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SpatialPolygonDelaunay</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">mesh</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">graph</span><span class="o">$</span><span class="n">tv</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">list</span><span class="p">(</span><span class="nf">Polygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">Polygon</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">loc[mesh</span><span class="o">$</span><span class="n">graph</span><span class="o">$</span><span class="n">tv[i</span><span class="p">,</span><span class="n">]</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="n">]</span><span class="p">)),</span><span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="sf" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SpatialPolygonDelaunay</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">mesh</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="nf">st_polygon</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">graph</span><span class="o">$</span><span class="n">tv</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">list</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">loc</span><span class="nf">[c</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">graph</span><span class="o">$</span><span class="n">tv[i</span><span class="p">,</span><span class="n">]</span><span class="p">,</span> <span class="n">mesh</span><span class="o">$</span><span class="n">graph</span><span class="o">$</span><span class="n">tv[i</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">),</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<p>Tal que el objeto ya convertido lo tendríamos como:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SpatialPolygonMesh</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygonDelaunay</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">INLAnonconvexMesh</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="borde-a-objeto-espacial">Borde a objeto espacial</h2>
+<p>En este caso se pretendenden transformar los bordes de la malla a <code>SpatialPolygons</code>, de tal forma que se pueda dar cuenta de los huecos presentes en la misma. Entonces, lo primero a realizar es convertir los bordes en polígonos simplemente conexos (sin huecos).</p>
+<p>Para conformar correctamente un polígono se debe indicar el orden de sucesión de los puntos del perímetro del mismo, tal que el el primer punto sea también el último para cerrar el polígono. Esto se puede realizar fácilmente gracias a que la malla almacena las localizaciones de los vértices que componen los bordes como pares de puntos en las filas de la matriz <code>mesh$segm$bnd$idx</code>. Esto es, si los puntos se refieren al mismo polígono tendremos la conexión establecida a partir de los pares de índices recorriendo las filas de esta matriz, tal que se llegará a repetir en la primera columna la posición del punto inicial para cerrar el polígono.</p>
+<p>Por tanto, sabiendo que la secuencia de índices para cada curva cerrada implica que el último par acabe en el primer punto (primer par de índices), tendremos que el elemento de la primera columna de la siguiente fila será diferente del elemento de la segunda columna de la fila de referencia: <code>mesh$segm$bnd$idx[i+1,1]!=mesh$segm$bnd$idx[i,1]</code>. Por lo que, a través de esta condición, podemos establecer los índices de los límites de los polígonos que querremos reconstruir como objetos espaciales (<code>sp</code> o <code>sf</code>).</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="sp"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','sp')"
+      ><span>sp</span></button>
+    <button
+      data-tab-item="sf"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','sf')"
+      ><span>sf</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="sp" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SpatialPolygonsBoundary</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">mesh</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndx</span> <span class="o">&lt;-</span> <span class="nf">sapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="p">)</span><span class="m">-1</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">return</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx[i</span><span class="m">+1</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="o">==</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx[i</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndxLims</span> <span class="o">&lt;-</span> <span class="nf">which</span><span class="p">(</span><span class="o">!</span><span class="n">BoundaryIndx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndxLims</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">BoundaryIndxLims</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">SpatialPolygonsBoundary</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="m">2</span><span class="o">:</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">BoundaryIndxLims</span><span class="p">)),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">VertixBoundaryIndex</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="nf">[</span><span class="p">(</span><span class="n">BoundaryIndxLims[i</span><span class="m">-1</span><span class="n">]</span><span class="m">+1</span><span class="p">)</span><span class="o">:</span><span class="n">BoundaryIndxLims[i]</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx[BoundaryIndxLims[i]</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                  <span class="n">ncol</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">byrow</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">return</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">Polygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">Polygon</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">loc[VertixBoundaryIndex</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="n">]</span><span class="p">)),</span><span class="n">i</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}))</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">SpatialPolygonsBoundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="sf" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SpatialPolygonsBoundary</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">mesh</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndx</span> <span class="o">&lt;-</span> <span class="nf">sapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="p">)</span><span class="m">-1</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">return</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx[i</span><span class="m">+1</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="o">==</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx[i</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndxLims</span> <span class="o">&lt;-</span> <span class="nf">which</span><span class="p">(</span><span class="o">!</span><span class="n">BoundaryIndx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BoundaryIndxLims</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">BoundaryIndxLims</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">SpatialPolygonsBoundary</span> <span class="o">&lt;-</span> <span class="nf">st_polygon</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="m">2</span><span class="o">:</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">BoundaryIndxLims</span><span class="p">)),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">VertixBoundaryIndex</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="nf">[</span><span class="p">(</span><span class="n">BoundaryIndxLims[i</span><span class="m">-1</span><span class="n">]</span><span class="m">+1</span><span class="p">),</span><span class="m">1</span><span class="n">]</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="n">mesh</span><span class="o">$</span><span class="n">segm</span><span class="o">$</span><span class="n">bnd</span><span class="o">$</span><span class="n">idx</span><span class="nf">[</span><span class="p">(</span><span class="n">BoundaryIndxLims[i</span><span class="m">-1</span><span class="n">]</span><span class="m">+1</span><span class="p">)</span><span class="o">:</span><span class="n">BoundaryIndxLims[i]</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">return</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">cbind</span><span class="p">(</span><span class="n">mesh</span><span class="o">$</span><span class="n">loc[VertixBoundaryIndex</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="n">]</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}))</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">SpatialPolygonsBoundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<!-- Con respecto a los polígonos obtenidos por `sf`, si se representa el resultado gráficamente, puede parecer que estos ya están teniendo en cuenta aquellos que son huecos, pero si hacemos la representación gráfica de cad uno de ellos se patentiza que estos no presentan huecos. Por tanto, si queremos realizar operaciones con los polígonos, detal forma que tengan en cuenta los intersticios, se tendrán que realizar las mismas transformaciones que para los polígonos dados para `sp`. -->
+<p>Entonces, una vez se han conformado todos los polígonos a partir de los bordes dados por la función de <code>INLA</code>, se deben transformar estos polígonos para dar cuenta de los huecos que puedan contener y están presentes. Para ello podemos realizar una planteamiento matemático de las propiedades del problema, empleando teoría de conjuntos para conjuntos ordenados, o bien plantearlo de forma operacional para su resolución.</p>
+
+<div class="expand">
+    <a class="expand-label" onclick="$t=$(this); if($t.parent('.expand-expanded.expand-marked').length){ $t.next().css('display','none') }else if($t.parent('.expand-marked').length){ $t.next().css('display','block') }else{ $t.next('.expand-content').slideToggle(100); } $t.parent().toggleClass('expand-expanded');">
+        <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-left expand-rtl direction-ltr"></i>
+        <i class="fas fa-chevron-right expand-ltr direction-ltr"></i>
+        Plantemiento operacional.
+    </a>
+    <div class="expand-content" style="display: none;">
+<p>Para realizarlo según un plateamiento operacional debemos considerar que hemos formado un polígono por cada curva cerrada, por cada borde o frontera, de tal forma que estas curvas podrán contener en su interior a otras superficies dadas por otras curvas. Además, algunos de estos polígonos podrán estar asociados al borde interior de los polígonos, los cuales remitirían a la frontera del hueco interno de dicho polígono, tal que podremos tener clasificar los polígonos obtenidos en dos clases o tipos: <em>polígonos llenos</em> y <em>polígonos huecos</em>, según remitan al borde de un área &ldquo;llena&rdquo; o un área &ldquo;hueca&rdquo;. Además, se tiene que tener en cuenta que un polígono lleno contendrán en el siguiente nivel de intersección máxima interna, en caso de contener en su interior otros polígonos, un <em>polígono hueco</em>. Mientras que para el caso de los <em>polígonos huecos</em> esta condición supone la contrarecíproca; a saber, que el siguiente nivel de intersección máxima interna será un <em>polígono lleno</em>. Tal que el nivel de interseccionalidad máxima interna respecto de un polígono dado lo entenderemos como el polígono de mayor área que esté completamente contenido en el polígono de referencia. Pero podemos ampliar esta definición según los distintos conjuntos de polígonos mutuamente independientes, donde la interseccionalidad máxima interna para el polígono de referencia ya no sea un único polígono, sino el mayor polígono de cada uno de estos conjuntos mutuamente disjuntos.</p>
+<p>Por otro lado, si un polígono, delimitado por una de estas curvas dadas, tiene una intersección no nula con otros, entonces esta intersección reproducirá totalmente uno de los dos polígonos.</p>
+<p>Posteriormente, si análogamente a una matriz de adyacencia o vecindad, elaboramos una <em>matriz de interseccionalidad</em>, determinada según la operación de intersección de un polígono dado sobre el resto de polígonos. Tal que la matriz contendrá las relaciones entre un polígono dado con todo el conjunto de polígonos según la operación de intersección, operación que valdrá 1 si hay intersección y 0 si no la hay. Por tanto, por cada fila o columna obtendremos la intersección de un polígono con el resto, donde la diagonal de la matriz manifestaría la intersección de un polígono consigo mismo, por lo que la diagonal principal será un vector de unos.</p>
+<p>De la <em>matriz de interseccionalidad</em> podemos concluir que las filas o columnas cuya suma resulte unitaria (únicamente el elemento de la diagonal principal resultará distinto de 0 para esa fila o columna), pertenecerán a un polígono que no contendrá ningún otro polígono, sea este hueco o lleno. Por tanto, podríamos extraer estos polígonos como polígonos correctamente definidos y que no requieren de transformación alguna.</p>
+<p>Finalmente, en caso de que una fila dada sume más de uno implicará que, al menos, contiene un hueco. Por lo que para formar los polígonos con los huecos podemos plantear el procedimiento de la siguiente forma:</p>
+<ol>
+<li>Primero, para cada fila se puede buscar el polígono de menor tamaño (área) en todo el conjunto de polígonos intersectantes, a partir del cual se construirá un conjunto completamente ordenado según las intersecciones del mismo.</li>
+<li>Seguidamente, se puede recomponer el conjunto de polígonos como la reordenación en la menor cantidad de conjuntos totalmente ordenados. Tal que de estos conjuntos totalmente ordenados sabremos que el mayor de los conjuntos remite a un polígono lleno, el siguiente a uno hueco, &hellip; y así sucesivamente.</li>
+<li>Para en tercer lugar, conformar mediante operaciones de diferencia y unión los distintos polígonos que den cuenta de los huecos existentes.</li>
+</ol>
+
+    </div>
+</div>
+
+<div class="expand">
+    <a class="expand-label" onclick="$t=$(this); if($t.parent('.expand-expanded.expand-marked').length){ $t.next().css('display','none') }else if($t.parent('.expand-marked').length){ $t.next().css('display','block') }else{ $t.next('.expand-content').slideToggle(100); } $t.parent().toggleClass('expand-expanded');">
+        <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-left expand-rtl direction-ltr"></i>
+        <i class="fas fa-chevron-right expand-ltr direction-ltr"></i>
+        Plantemiento matemático.
+    </a>
+    <div class="expand-content" style="display: none;">
+<p>Desde un enfoque matemático podemos emplear teoría de conjuntos para evaluar el conjunto de operaciones a realizar para resolver la cuestión. Para ello, lo primero que debemos hacer es establecer las condiciones del problema:</p>
+<ol>
+<li>Tenemos un conjunto de
+<span class="math align-center">$n$</span> polígonos
+<span class="math align-center">$p_i$</span>, tal que el conjunto universal de referencia será
+<span class="math align-center">$\displaystyle P=\{p_1, &hellip;, p_n\}$</span>. Tal que estos polígonos son subconjuntos del espacio Euclídeo de dos dimensiones,
+<span class="math align-center">$p_i\subset \mathbb{R}^2$</span>.</li>
+<li>Existen dos tipos de polígonos: (i) polígonos llenos (o <em>fill</em>)
+<span class="math align-center">$P_{F}=\{p_{fi}\}$</span> y (ii) polígonos huecos (o <em>holes</em>)
+<span class="math align-center">$P_H=\{p_{hi}\}$</span>, tal que
+<span class="math align-center">$P=P_F\cup P_H$</span>.</li>
+<li>Existe una función
+<span class="math align-center">$f$</span> que establece la relación entre un polígono
+<span class="math align-center">$p_i$</span> con su área
+<span class="math align-center">$a_i$</span>, tal que
+<span class="math align-center">$f:P\longmapsto A$</span> es
+<span class="math align-center">$f(p_i)=a_i$</span>. No obstante, esta función es sólo sobreyectiva si asumimos que puede haber dos o más polígonos con la misma área, mientras que sería sobreyectiva e inyectiva si para cada polígono tiene un área distinta.</li>
+<li>Si la intersección de dos polígonos es no nula, entonces la intersección resulta en el polígono de menor área. Esto es,
+<span class="math align-center">$p_i\cap p_j=\{\emptyset\veebar p_j\}|f(p_i)&gt;f(p_j)$</span>. Además, tenemos como condición que no existe ningún polígono que intersectando con otro tenga su misma área,
+<span class="math align-center">$(\nexists p_i)(p_i,p_j\in P): f(p_i)=f(p_j)\iff \{p_i\cap p_j\neq \emptyset \wedge i\neq j\}$</span>.</li>
+<li>Para el conjunto de todas las intersecciones no nulas de polígonos
+<span class="math align-center">$(p_i, p_j)$</span>, tendremos que el conjunto con mayor área es un <em>polígono lleno</em>
+<span class="math align-center">$f(p_i)&gt;f(p_j):p_i\in P_F$</span>.</li>
+<li>Finalmente, como condición debil entre la intersección no nula de dos <em>polígonos llenos</em>, tenemos que existe, al menos, un <em>polígono hueco</em> con mayor área que la del polígono lleno de menor área y que también intersecta con los mismos. Dicho de otro modo, si
+<span class="math align-center">$p_j\subset p_i:p_i,p_j\in P_F\Rightarrow (\exists p_k) p_k\in P_H: p_j\subset p_k\subset p_i$</span>. Mientras que la condición fuerte será, que si tenemos dos polígonos tal que uno es subconjunto de otro sin nungún <em>polígono lleno</em> que puede incorporarse como elemento medio entre ambos mediante la operación de subconjunto-de, entonces existe un y sólo un <em>polígono hueco</em> que intermedia entre ambos:</li>
+</ol>
+<span class="math align-center">
+$$(\forall p_i,p_j\in P_F) p_j\subset p_i:\nexists p_k\in P_F, p_j \subset p_k \wedge p_k\subset p_i \iff \exists! p_z\in P_H: p_j\subset p_z \wedge p_z\subset p_i.$$
+</span>
+<p>Dadas estas condiciones es obvio que puede reordenarse el conjunto
+<span class="math align-center">$P$</span> de todos los polígonos, de tal forma que tengamos el menor número de conjuntos completamente ordenados de mayor cardinalidad cuya unión reproduzca el conjunto
+<span class="math align-center">$P$</span> de referencia. Es decir, tenemos que conformar todos aquellos conjuntos completamente ordenados
+<span class="math align-center">$(P_i,\subset)$</span>, lo cual implica que
+<span class="math align-center">$(\forall p_i) p_i\in P_i (\exists p_j)p_j\in P_i\rightarrow p_j\subset p_i \vee p_i\subset p_j$</span>. Por tanto, debemos construir estos conjuntos completamente ordenados
+<span class="math align-center">$P_i=\{p_{i1}\subset p_{2i}\subset &hellip; \subset p_{ni}\}$</span>, de los que sabemos por las condiciones (5) y (6) que para cualquiera de estos conjuntos
+<span class="math align-center">$P_i$</span>, tendremos que los polígonos llenos serán:</p>
+<span class="math align-center">
+$$\{p_{ki},p_{(k-2)i},...,\}\in P_F \Rightarrow p_{(k-2m)i}\in P_F:m\in M\subset\mathbb{N},$$
+</span> 
+mientras que los polígonos huecos serían:  
+<span class="math align-center">
+$$\{p_{(k-1)i},p_{(k-3)i},...,\}\in P_H \Rightarrow p_{(k-1-2m)i}\in P_H: m\in M'\subset\mathbb{N}.$$
+</span>
+
+    </div>
+</div>
+<p>El código para poder realizar las transformaciones pertinentes y obtener los polígonos con los huecos correspondientes, es el siguiente:</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="sp"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','sp')"
+      ><span>sp</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="sp" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">CompleteOrderedSetsFromSpatialPolygonsClass</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">SPDINLABoundaryList</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">Polygons</span><span class="o">=</span><span class="nf">list</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="cl">                              <span class="n">DFIDArea</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">matrix</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">nrow</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">dimnames</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="kc">NULL</span><span class="p">,</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;ID&#34;</span><span class="p">,</span> <span class="s">&#34;Area&#34;</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">Polygons[[i]]</span> <span class="o">&lt;-</span> <span class="n">SPDINLAnonconvexBoundary[i]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">DFIDArea[i</span><span class="p">,</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">SPDINLAnonconvexBoundary[i]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="o">@</span><span class="n">area</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">IndexIDV</span> <span class="o">&lt;-</span> <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">DFIDArea</span><span class="o">$</span><span class="n">ID</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">ConnectivityMatrix</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">),</span> <span class="n">nrow</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">for</span><span class="p">(</span><span class="n">j</span> <span class="n">in</span> <span class="n">i</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ConnectivityMatrix[i</span><span class="p">,</span><span class="n">j]</span> <span class="o">&lt;-</span> <span class="n">ConnectivityMatrix[j</span><span class="p">,</span><span class="n">i]</span> <span class="o">&lt;-</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="nf">gIntersects</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary[i]</span><span class="p">,</span> <span class="n">SPDINLAnonconvexBoundary[j]</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">IndexIsolatedPolygonFill</span> <span class="o">&lt;-</span> <span class="nf">which</span><span class="p">(</span><span class="nf">apply</span><span class="p">(</span><span class="n">ConnectivityMatrix</span><span class="p">,</span> <span class="n">FUN</span><span class="o">=</span><span class="n">sum</span><span class="p">,</span> <span class="n">MARGIN</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">==</span><span class="m">1</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">IndexIDV</span> <span class="o">&lt;-</span> <span class="nf">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIsolatedPolygonFill</span><span class="p">)</span><span class="o">==</span><span class="m">0</span><span class="p">){</span><span class="n">IndexIDV</span><span class="p">}</span> <span class="n">else</span><span class="p">{</span><span class="n">IndexIDV[</span><span class="o">-</span><span class="nf">which</span><span class="p">(</span><span class="nf">apply</span><span class="p">(</span><span class="n">ConnectivityMatrix</span><span class="p">,</span> <span class="n">FUN</span><span class="o">=</span><span class="n">sum</span><span class="p">,</span> <span class="n">MARGIN</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">==</span><span class="m">1</span><span class="p">)</span><span class="n">]</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">CompleteOrderedSets</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">=</span><span class="nf">list</span><span class="p">(),</span> <span class="n">DFCompleteOrderedSets</span><span class="o">=</span><span class="nf">list</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="cl">                              <span class="n">CompleteOrderedIsolatedSets</span><span class="o">=</span><span class="nf">list</span><span class="p">(),</span> <span class="n">DFCompleteOrderedIsolatedSets</span><span class="o">=</span><span class="nf">list</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nf">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIsolatedPolygonFill</span><span class="p">)</span><span class="o">!=</span><span class="m">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIsolatedPolygonFill</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedIsolatedSets[[i]]</span> <span class="o">&lt;-</span> <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">Polygons[[IndexIsolatedPolygonFill[i]]]</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedIsolatedSets[[i]]</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">(</span><span class="n">ID</span><span class="o">=</span><span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">Polygons[[IndexIsolatedPolygonFill[i]]]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="o">@</span><span class="n">ID</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">Area</span><span class="o">=</span><span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">Polygons[[IndexIsolatedPolygonFill[i]]]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="o">@</span><span class="n">area</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">HOLE</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nf">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIsolatedPolygonFill</span><span class="p">)</span><span class="o">!=</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIDV</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_step</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">while</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIDV</span><span class="p">)</span><span class="o">!=</span><span class="m">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">IDminArea</span> <span class="o">&lt;-</span> <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">DFIDArea[IndexIDV</span><span class="p">,</span><span class="s">&#34;ID&#34;</span><span class="n">]</span><span class="nf">[which.min</span><span class="p">(</span><span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">DFIDArea[IndexIDV</span><span class="p">,</span><span class="s">&#34;Area&#34;</span><span class="n">]</span><span class="p">)</span><span class="n">]</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">IndxCOS</span> <span class="o">&lt;-</span> <span class="nf">which</span><span class="p">(</span><span class="nf">as.logical</span><span class="p">(</span><span class="n">ConnectivityMatrix[IDminArea</span><span class="p">,</span><span class="n">]</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">DFIDAreaV</span> <span class="o">&lt;-</span> <span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">DFIDArea[IndxCOS</span><span class="p">,</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[n_step]]</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">        <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">DFIDAreaV</span><span class="nf">[order</span><span class="p">(</span><span class="n">DFIDAreaV</span><span class="o">$</span><span class="n">Area</span><span class="p">,</span> <span class="n">decreasing</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="s">&#34;ID&#34;</span><span class="n">]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                               <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                                 <span class="nf">list</span><span class="p">(</span><span class="n">SPDINLABoundaryList</span><span class="o">$</span><span class="n">Polygons[[i]]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                               <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[n_step]]</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">        <span class="nf">data.frame</span><span class="p">(</span><span class="n">ID</span><span class="o">=</span><span class="n">DFIDAreaV</span><span class="nf">[order</span><span class="p">(</span><span class="n">DFIDAreaV</span><span class="o">$</span><span class="n">Area</span><span class="p">,</span> <span class="n">decreasing</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="s">&#34;ID&#34;</span><span class="n">]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">Area</span><span class="o">=</span><span class="n">DFIDAreaV</span><span class="nf">[order</span><span class="p">(</span><span class="n">DFIDAreaV</span><span class="o">$</span><span class="n">Area</span><span class="p">,</span> <span class="n">decreasing</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="s">&#34;Area&#34;</span><span class="n">]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">HOLE</span><span class="o">=</span><span class="nf">floor</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">IndxCOS</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)</span><span class="o">==</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">IndxCOS</span><span class="p">)</span><span class="o">/</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="n">IndexIDV</span> <span class="o">&lt;-</span> <span class="nf">setdiff</span><span class="p">(</span><span class="n">IndexIDV</span><span class="p">,</span><span class="n">IndxCOS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">n_step</span> <span class="o">&lt;-</span> <span class="n">n_step</span><span class="m">+1</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">SpatialPolygonsNames</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="o">!=</span><span class="nf">floor</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpatialPolygonsNames</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">          <span class="nf">c</span><span class="p">(</span><span class="n">SpatialPolygonsNames</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                   <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID</span><span class="nf">[length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="n">]</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="nf">assign</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID</span><span class="nf">[length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="n">]</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">               <span class="n">value</span><span class="o">=</span><span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="o">@</span><span class="n">polygons[</span><span class="nf">[length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="n">]]</span>
+</span></span><span class="line"><span class="cl">               <span class="p">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="nf">for</span><span class="p">(</span><span class="n">j</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">floor</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">indx</span> <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">2+2</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="m">-1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">if</span><span class="p">(</span><span class="nf">exists</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">))){</span>
+</span></span><span class="line"><span class="cl">          <span class="nf">assign</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">value</span><span class="o">=</span><span class="nf">gDifference</span><span class="p">(</span><span class="nf">eval</span><span class="p">(</span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">))),</span> 
+</span></span><span class="line"><span class="cl">                                   <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="o">@</span><span class="n">polygons[[indx[2]]]</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">                                   <span class="n">id</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="n">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">SpatialPolygonsNames</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">SpatialPolygonsNames</span><span class="p">,</span> <span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">          <span class="nf">assign</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&#34;SPDINLA&#34;</span><span class="p">,</span> <span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">value</span><span class="o">=</span><span class="nf">gDifference</span><span class="p">(</span><span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="o">@</span><span class="n">polygons[[indx[1]]]</span><span class="p">)),</span> 
+</span></span><span class="line"><span class="cl">                                   <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedSets[[i]]</span><span class="o">@</span><span class="n">polygons[[indx[2]]]</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">                                   <span class="n">id</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">DFCompleteOrderedSets[[i]]</span><span class="o">$</span><span class="n">ID[indx[1]]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="nf">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">IndexIsolatedPolygonFill</span><span class="p">)</span><span class="o">!=</span><span class="m">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpatialPolygonRefined</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">SpatialPolygonsNames</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">          <span class="nf">return</span><span class="p">(</span><span class="nf">eval</span><span class="p">(</span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">SpatialPolygonsNames[i]</span><span class="p">,</span> <span class="s">&#34;@polygons[[1]]&#34;</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}),</span> <span class="nf">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedIsolatedSets</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">          <span class="nf">return</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedIsolatedSets[[i]]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})))</span>        
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="n">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpatialPolygonRefined</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">SpatialPolygonsNames</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">          <span class="nf">return</span><span class="p">(</span><span class="nf">eval</span><span class="p">(</span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="nf">paste0</span><span class="p">(</span><span class="n">SpatialPolygonsNames[i]</span><span class="p">,</span> <span class="s">&#34;@polygons[[1]]&#34;</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SpatialPolygonRefined</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygons</span><span class="p">(</span><span class="nf">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedIsolatedSets</span><span class="p">),</span> <span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">return</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">$</span><span class="n">CompleteOrderedIsolatedSets[[i]]</span><span class="o">@</span><span class="n">polygons[[1]]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">SpatialPolygonRefined</span><span class="o">@</span><span class="n">proj4string</span> <span class="o">&lt;-</span> <span class="nf">CRS</span><span class="p">(</span><span class="s">&#34;+proj=utm&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CompleteOrderedSetsAndPolygons</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">CompleteOrderedSets</span><span class="o">=</span><span class="n">CompleteOrderedSets</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">SpatialPolygonRefined</span><span class="o">=</span><span class="n">SpatialPolygonRefined</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nf">return</span><span class="p">(</span><span class="n">CompleteOrderedSetsAndPolygons</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<p>Gracias a esta función tenemos todos los polígonos según las curvas cerradas que los determinan. Esto permite que se puedan realizar operaciones mediante ellos, de tal forma que se esté teniendo en cuenta los huecos existentes.</p>
+<p>Por tanto, siguiendo el ejemplo, tendríamos que aplicar la primera función <code>SpatialPolygonsBoundary</code> sobre el resultado de la malla <code>INLAnonconvexMesh</code>, y posteriormente aplicar la función que acabamos de definir.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">SPDINLAnonconvexBoundary</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygonsBoundary</span><span class="p">(</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">INLAnonconvexMesh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">PolygonsRefined</span> <span class="o">&lt;-</span> <span class="nf">CompleteOrderedSetsFromSpatialPolygonsClass</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span> <span class="o">=</span> <span class="n">SPDINLAnonconvexBoundary</span><span class="p">)</span>
+</span></span></code></pre></div><p>Para que se visualice que propiamente ahora tenemos la totalidad de los polígonos disponibles unos independientes de otros, podemos graficarlos mediante diferentes colores:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">col</span> <span class="o">&lt;-</span> <span class="n">viridis</span><span class="o">::</span><span class="nf">turbo</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ggplotPolygons</span> <span class="o">&lt;-</span> <span class="nf">ggplot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ggplotPolygons</span> <span class="o">&lt;-</span> <span class="n">ggplotPolygons</span> <span class="o">+</span> <span class="nf">geom_sf</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nf">st_as_sf</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined[i]</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">col[i]</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Tal que, si representamos los polígonos como <code>ggplotPolygons + theme_void()</code> obtendremos la siguiente figura:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><b>Fig. 2: Refined polygons</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">
+		
+<a href="../../es/inla/variousfunctions/inlatosp/ggplotPolygonsRefined.png?&amp;width=25pc" data-featherlight="image">
+<img src="../../es/inla/variousfunctions/inlatosp/ggplotPolygonsRefined.png?&amp;width=25pc" alt="Polygons_with_holes" style="height: auto; width: 25pc;" loading="lazy">
+</a></td>
+</tr>
+</tbody>
+</table>
+
+<div class="expand">
+    <a class="expand-label" onclick="$t=$(this); if($t.parent('.expand-expanded.expand-marked').length){ $t.next().css('display','none') }else if($t.parent('.expand-marked').length){ $t.next().css('display','block') }else{ $t.next('.expand-content').slideToggle(100); } $t.parent().toggleClass('expand-expanded');">
+        <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-left expand-rtl direction-ltr"></i>
+        <i class="fas fa-chevron-right expand-ltr direction-ltr"></i>
+        Ejemplo con polígonos apilados.
+    </a>
+    <div class="expand-content" style="display: none;">
+<p>Vamos a presentar un pequeño ejemplo para que se visualice que la función es capaz de extraer un orden arbitrario de polígonos, aunque estos estén apilados. Es decir, en principio, la función aplica para cualquier caso en general que cumpla con dos condiciones, (i) la <em>intersección total</em> y (ii) la ordenación de <em>polígono-lleno</em> / <em>polígono-hueco</em> en niveles sucesivos de <em>intersección máxima interna</em>.</p>
+<p>Lo primero que haremos para comprobar que dicha función es capaz de operar con polígonos apilados será crear los polígonos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">rho1</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0.01</span><span class="p">);</span> <span class="n">theta1</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="o">*</span><span class="kc">pi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">rho2</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">0.01</span><span class="p">);</span> <span class="n">theta2</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="o">*</span><span class="kc">pi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">rho3</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">220</span><span class="p">,</span><span class="m">12</span><span class="p">,</span><span class="m">0.01</span><span class="p">);</span> <span class="n">theta3</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="m">220</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="o">*</span><span class="kc">pi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">XYPoint</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">cbind</span><span class="p">(</span><span class="n">rho1</span><span class="o">*</span><span class="nf">cos</span><span class="p">(</span><span class="n">theta1</span><span class="p">),</span> <span class="n">rho1</span><span class="o">*</span><span class="nf">sin</span><span class="p">(</span><span class="n">theta1</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">cbind</span><span class="p">(</span><span class="n">rho2</span><span class="o">*</span><span class="nf">cos</span><span class="p">(</span><span class="n">theta2</span><span class="p">),</span> <span class="n">rho2</span><span class="o">*</span><span class="nf">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">cbind</span><span class="p">(</span><span class="n">rho3</span><span class="o">*</span><span class="nf">cos</span><span class="p">(</span><span class="n">theta3</span><span class="p">),</span> <span class="n">rho3</span><span class="o">*</span><span class="nf">sin</span><span class="p">(</span><span class="n">theta3</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Boundary</span> <span class="o">&lt;-</span> <span class="nf">inla.nonconvex.hull</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">XYPoint</span><span class="p">,</span> <span class="n">convex</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">100</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">INLAnonconvexMesh</span> <span class="o">&lt;-</span> <span class="nf">inla.mesh.2d</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="n">Boundary</span><span class="p">,</span> <span class="n">max.edge</span><span class="o">=</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">SPDINLAnonconvexBoundary</span> <span class="o">&lt;-</span> <span class="nf">SpatialPolygonsBoundary</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">INLAnonconvexMesh</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th style="text-align:center"><b>Fig. 3: Nested polygons</b></th>
+<th style="text-align:center"><b>Fig. 4: Mesh of nested polygons</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">
+		
+<a href="../../es/inla/variousfunctions/inlatosp/ggplotTest.png?&amp;width=25pc" data-featherlight="image">
+<img src="../../es/inla/variousfunctions/inlatosp/ggplotTest.png?&amp;width=25pc" alt="Nested_polygons" style="height: auto; width: 25pc;" loading="lazy">
+</a></td>
+<td style="text-align:center">
+		
+<a href="../../es/inla/variousfunctions/inlatosp/ggTestMesh.png?&amp;width=25pc" data-featherlight="image">
+<img src="../../es/inla/variousfunctions/inlatosp/ggTestMesh.png?&amp;width=25pc" alt="Mesh_nested_polygons" style="height: auto; width: 25pc;" loading="lazy">
+</a></td>
+</tr>
+</tbody>
+</table>
+<p>A continuación aplicacamos la función para extraer los polígonos con los huecos y representamos gráficamente el resultado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">PolygonsRefined</span> <span class="o">&lt;-</span> <span class="nf">CompleteOrderedSetsFromSpatialPolygonsClass</span><span class="p">(</span><span class="n">SPDINLAnonconvexBoundary</span><span class="o">=</span><span class="n">SPDINLAnonconvexBoundary</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">&lt;-</span> <span class="n">viridis</span><span class="o">::</span><span class="nf">turbo</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ggplotPolygons</span> <span class="o">&lt;-</span> <span class="nf">ggplot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ggplotPolygons</span> <span class="o">&lt;-</span> <span class="n">ggplotPolygons</span> <span class="o">+</span> <span class="nf">geom_sf</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nf">st_as_sf</span><span class="p">(</span><span class="n">PolygonsRefined</span><span class="o">$</span><span class="n">SpatialPolygonRefined[i]</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">col[i]</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th style="text-align:center"><b>Fig. 5: Nested polygons fixing holes</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">
+		
+<a href="../../es/inla/variousfunctions/inlatosp/ggplotTestFixed.png?&amp;width=25pc" data-featherlight="image">
+<img src="../../es/inla/variousfunctions/inlatosp/ggplotTestFixed.png?&amp;width=25pc" alt="Nested_polygons" style="height: auto; width: 25pc;" loading="lazy">
+</a></td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+</div>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          </section>
+          <article class="default">
+<h1 id="modelos-espaciales">Modelos Espaciales</h1>
+
+<p>En esta sección expondremos cómo realizar distintos tipos de modelos espaciales con INLA en el entonrno <strong>R-INLA</strong>:</p>
+
+<ul class="children children-li children-sort-weight">
+	
+<li><a href="../../es/inla/spatialmodels/geostatisticalmodel/index.html">Modelo Geoestadístico</a><p>Un modelo geoestadístico simple en INLA.</p></li>
+<li><a href="../../es/inla/spatialmodels/jointmodel_preferential/index.html">Modelo Preferencial</a><p>Un modelo conjunto para datos prefenciales.</p></li>
+<li><a href="../../es/inla/spatialmodels/spatialvaryingcoefficientmodel/index.html">Modelo SVC</a><p>Modelos de Coeficientes Espacialmente Variables.</p></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsecciones de Modelos Espaciales</h1>
+          <article class="default">
+<h1 id="modelo-geoestad%C3%ADstico">Modelo Geoestadístico</h1>
+
+<p>En esta sección expondremos</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <article class="default">
+<h1 id="modelo-preferencial">Modelo Preferencial</h1>
+
+<p>In this section we will show</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <article class="default">
+<h1 id="modelo-svc">Modelo SVC</h1>
+
+<p>En esta sección expondremos cómo realizar distintos tipos de modelos espaciales con INLA en el entonrno <strong>R-INLA</strong>:</p>
+
+<ul class="children children-li children-sort-weight">
+	
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          </section>
+          </section>        </div>
+      </main>
+    </div>
+    <script src="../../js/clipboard.min.js" defer></script>
+    <script src="../../js/perfect-scrollbar.min.js" defer></script>
+    <script src="../../js/featherlight.min.js" defer></script>
+    <script>
+      function useMathJax( config ){
+        if( !Object.assign ){
+          
+          return;
+        }
+        window.MathJax = Object.assign( window.MathJax || {}, {
+          loader: {
+            load: ['[tex]/mhchem']
+          },
+          startup: {
+            elements: [
+              '.math'
+            ]
+          },
+          tex: {
+            inlineMath: [
+              ['$', '$'], 
+              ['\\(', '\\)']
+            ]
+          },
+          options: {
+            enableMenu: false 
+          }
+        }, config );
+      }
+      useMathJax( JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="../../js/mathjax/tex-mml-chtml.js"></script>
+    <script src="../../js/jquery.svg.pan.zoom.js" defer></script>
+    <script src="../../js/mermaid.min.js" defer></script>
+    <script>
+      window.themeUseMermaid = JSON.parse("{ \"securityLevel\": \"loose\" }");
+    </script>
+    <script src="../../js/theme.js" defer></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-105947713-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

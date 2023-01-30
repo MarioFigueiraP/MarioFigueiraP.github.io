@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Modelo SVC on Documentación</title>
+    <link>https://MarioFigueiraP.github.io/es/inla/spatialmodels/spatialvaryingcoefficientmodel/index.html</link>
+    <description>Recent content in Modelo SVC on Documentación</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://MarioFigueiraP.github.io/es/inla/spatialmodels/spatialvaryingcoefficientmodel/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

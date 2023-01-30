@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Various Functions on Documentation</title>
+    <link>https://MarioFigueiraP.github.io/inla/variousfunctions/index.html</link>
+    <description>Recent content in Various Functions on Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://MarioFigueiraP.github.io/inla/variousfunctions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Transformation to sp/sf</title>
+      <link>https://MarioFigueiraP.github.io/inla/variousfunctions/inlatosp/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/inla/variousfunctions/inlatosp/index.html</guid>
+      <description>Version infromation In this we expose a list with all the versions of the programms, operative system and the libraries used in this section code, which almost is extracted from sessionInfo().
+SO (version): Windows 11 Home (22H2). R: 4.2.2 (2022-10-31 ucrt). RStudio: 2022.07.2 (Build 576). Libraries: INLA: INLA_22.05.07 inlabru: inlabru_2.5.3 sp: sp_1.5-0 sf: sf_1.0-8 ggplot2: ggplot2_3.3.6 viridis: viridis_0.6.2 There may be cases when you need to work with inla elements as if they were spatial objects (usually sp or sf), this will be particularly appropriate when working with meshes or mesh edges.</description>
+    </item>
+  </channel>
+</rss>

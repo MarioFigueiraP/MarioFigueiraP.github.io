@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>INLA on Documentation</title>
+    <link>https://MarioFigueiraP.github.io/inla/index.html</link>
+    <description>Recent content in INLA on Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://MarioFigueiraP.github.io/inla/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basic Operations</title>
+      <link>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html</guid>
+      <description>In this section we will show
+Basic Linear ModelsSimple examples of linear models.
+Mesh ConstructionBrief introduction to the construction of meshes: applications and operational basis.
+StacksA short introduction to inla stacks and their uses.</description>
+    </item>
+    <item>
+      <title>Spatial Models</title>
+      <link>https://MarioFigueiraP.github.io/inla/spatialmodels/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/inla/spatialmodels/index.html</guid>
+      <description>In this section we will show
+Geostatistical ModelA simple geostatical model in INLA.
+Preferential ModelA joint model for preferentially sampled data.
+SVC ModelSpatially Varying Coefficient Model.</description>
+    </item>
+    <item>
+      <title>Various Functions</title>
+      <link>https://MarioFigueiraP.github.io/inla/variousfunctions/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/inla/variousfunctions/index.html</guid>
+      <description>Here we will present different functions that have been developed for implementation in automated processes or that may be of interest.
+Transformation to sp/sfHere we define some functions related to the transformations of inla.mesh objects to sp and sf.</description>
+    </item>
+  </channel>
+</rss>
