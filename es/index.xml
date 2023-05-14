@@ -11,7 +11,14 @@
       <link>https://MarioFigueiraP.github.io/es/inla/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://MarioFigueiraP.github.io/es/inla/index.html</guid>
-      <description>Metodología INLA Existen distintas metodologías para la computación de los procesos beyesianos de inferencia, métodos de simulación como MCMC (Markov chain Monte Carlo) o métodos aproximativos como VB (variational Bayes), todas ellas con sus dificultades propias. En particular, INLA (Integrated Nested Laplace Approximation) es un enfoque determinista aproximado, desarrollado por (Rue, Martino y Chopin, 2009) y ampliado en (Lindgren y Rue, 2015; Rue y col., 2017; Bakka y col., 2018), que permite realizar la inferencia Bayesiana en un conjunto de modelos aditivos estructurados, denominados modelos Gaussianos latentes (LGMs).</description>
+      <description>Metodología INLA Existen distintas metodologías para la realización computacional de inferencia bayesiana, métodos de simulación como MCMC (Markov chain Monte Carlo) o métodos aproximativos como VB (variational Bayes); todas ellas con sus dificultades propias. No obstante, INLA (Integrated Nested Laplace Approximation) es un enfoque determinista aproximado, desarrollado por (Rue, Martino y Chopin, 2009) y ampliado en (Lindgren y Rue, 2015; Rue y col., 2017; Bakka y col., 2018), que permite realizar la inferencia Bayesiana en un conjunto de modelos aditivos estructurados, denominados modelos Gaussianos latentes (LGMs).</description>
+    </item>
+    <item>
+      <title>inlabru</title>
+      <link>https://MarioFigueiraP.github.io/es/inlabru/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/es/inlabru/index.html</guid>
+      <description>Metodología inlabru </description>
     </item>
   </channel>
 </rss>

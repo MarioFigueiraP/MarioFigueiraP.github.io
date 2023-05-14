@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="es" dir="ltr">
   <head>
     
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="description" content="List the child pages of a page">
+    <meta name="description" content="Documentation for Bayesian Statistics">
     <meta name="author" content="Mario Figueira">
-    <title>Basic Operations :: Documentation</title>
-    <link href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html" rel="canonical" type="text/html" title="Basic Operations :: Documentation">
-    <link href="../../inla/basicoperationalinfo/index.xml" rel="alternate" type="application/rss+xml" title="Basic Operations :: Documentation">
+    <title>inlabru :: Documentación</title>
+    <link href="https://MarioFigueiraP.github.io/es/inlabru/index.html" rel="canonical" type="text/html" title="inlabru :: Documentación">
+    <link href="../../es/inlabru/index.xml" rel="alternate" type="application/rss+xml" title="inlabru :: Documentación">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="../../css/fontawesome-all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/fontawesome-all.min.css" rel="stylesheet"></noscript>
     <link href="../../css/featherlight.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../css/featherlight.min.css" rel="stylesheet"></noscript>
@@ -27,23 +50,23 @@
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
-      window.index_js_url="../../index.search.js";
+      window.index_js_url="../../es/index.search.js";
       var root_url="../../";
       var baseUri=root_url.replace(/\/$/, '');
       // translations
-      window.T_Copy_to_clipboard = 'Copy to clipboard';
-      window.T_Copied_to_clipboard = 'Copied to clipboard!';
-      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
-      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
-      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
-      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      window.T_Copy_to_clipboard = 'Copiar en el portapapeles';
+      window.T_Copied_to_clipboard = '¡Copiado al portapapeles!';
+      window.T_Copy_link_to_clipboard = 'Copiar enlace al portapapeles';
+      window.T_Link_copied_to_clipboard = '¡Enlace copiado al portapapeles!';
+      window.T_No_results_found = 'No se han encontrado resultados para \u0022{0}\u0022';
+      window.T_N_results_found = '{1} resultados encontrados para \u0022{0}\u0022';
       // some further base stuff
       var baseUriFull='https:\/\/MarioFigueiraP.github.io/';
       window.variants && variants.init( [ 'learn', 'relearn-light', 'relearn-dark', 'neon', 'blue', 'green', 'red' ] );
     </script>
     <script src="../../js/jquery.min.js" defer></script>
   </head>
-  <body class="mobile-support print" data-url="../../inla/basicoperationalinfo/index.html">
+  <body class="mobile-support print" data-url="../../es/inlabru/index.html">
     <div id="body" class="default-animation">
       <div id="sidebar-overlay"></div>
       <div id="toc-overlay"></div>
@@ -51,66 +74,27 @@
         <div>
           <div id="breadcrumbs">
             <span id="sidebar-toggle-span">
-              <a href="#" id="sidebar-toggle" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+              <a href="#" id="sidebar-toggle" title='Menú (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
             </span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../index.html"><span itemprop="name">Home</span></a><meta itemprop="position" content="1"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../inla/index.html"><span itemprop="name">INLA</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Basic Operations</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../es/index.html"><span itemprop="name">Inicio</span></a><meta itemprop="position" content="1"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">inlabru</span><meta itemprop="position" content="2"></li>
             </ol>
           </div>
         </div>
       </nav>
-      <main id="body-inner" class="highlightable default" tabindex="-1">
+      <main id="body-inner" class="highlightable chapter narrow" tabindex="-1">
         <div class="flex-block-wrapper">
           <div id="head-tags">
           </div>
-          <article class="default">
-<h1 id="basic-operations">Basic Operations</h1>
+          <article class="chapter deprecated">
 
-<p>In this part we will show different basic functions and operations, which are the basis to modelling with INLA.</p>
-
-<ul class="children children-li children-sort-weight">
-	
-<li><a href="../../inla/basicoperationalinfo/linearmodels/index.html">Basic Linear Models</a><p>Simple examples of linear models.</p></li>
-<li><a href="../../inla/basicoperationalinfo/meshes/index.html">Mesh Construction</a><p>Brief introduction to the construction of meshes: applications and  operational basis.</p></li>
-<li><a href="../../inla/basicoperationalinfo/stacks/index.html">Stacks</a><p>A short introduction to inla stacks and their uses.</p></li>
-</ul>
+<h1 id="metodología-inlabru">Metodología inlabru</h1>
 
             <footer class="footline">
             </footer>
           </article>
-
-          <section>
-            <h1 class="a11y-only">Subsections of Basic Operations</h1>
-          <article class="default">
-<h1 id="basic-linear-models">Basic Linear Models</h1>
-
-<p>In this section we will show</p>
-
-            <footer class="footline">
-            </footer>
-          </article>
-
-          <article class="default">
-<h1 id="mesh-construction">Mesh Construction</h1>
-
-<p>In this section we will show</p>
-
-            <footer class="footline">
-            </footer>
-          </article>
-
-          <article class="default">
-<h1 id="stacks">Stacks</h1>
-
-<p>In this section we will show</p>
-
-            <footer class="footline">
-            </footer>
-          </article>
-
-          </section>        </div>
+        </div>
       </main>
     </div>
     <script src="../../js/clipboard.min.js" defer></script>

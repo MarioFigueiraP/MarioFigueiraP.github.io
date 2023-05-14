@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -27,6 +40,19 @@
                 />
   </url>
   <url>
+    <loc>https://MarioFigueiraP.github.io/inlabru/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inlabru/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inlabru/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/inla/variousfunctions/inlatosp/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -50,19 +76,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html"
-                />
-  </url>
-  <url>
-    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="es"
-                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/index.html"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html"
                 />
   </url>
   <url>

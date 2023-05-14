@@ -90,7 +90,68 @@
           <article class="chapter deprecated">
 
 <h1 id="metodología-inla">Metodología INLA</h1>
-<p>Existen distintas metodologías para la computación de los procesos beyesianos de inferencia, métodos de simulación como MCMC (Markov chain Monte Carlo) o métodos aproximativos como VB (variational Bayes), todas ellas con sus dificultades propias. En particular, INLA (Integrated Nested Laplace Approximation) es un enfoque determinista aproximado, desarrollado por <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2008.00700.x">(Rue, Martino y Chopin, 2009)</a> y ampliado en (<a href="https://www.jstatsoft.org/article/view/v063i19">Lindgren y Rue, 2015</a>; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2937741">Rue y col., 2017</a>; <a href="https://wires.onlinelibrary.wiley.com/doi/abs/10.1002/wics.1443">Bakka y col., 2018</a>), que permite realizar la inferencia Bayesiana en un conjunto de modelos aditivos estructurados, denominados <em>modelos Gaussianos latentes</em> (LGMs).</p>
+<p>Existen distintas metodologías para la realización computacional de inferencia bayesiana, métodos de simulación como MCMC (Markov chain Monte Carlo) o métodos aproximativos como VB (variational Bayes); todas ellas con sus dificultades propias. No obstante, <strong>INLA</strong> (Integrated Nested Laplace Approximation) es un enfoque determinista aproximado, desarrollado por <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2008.00700.x">(Rue, Martino y Chopin, 2009)</a> y ampliado en <a href="https://www.jstatsoft.org/article/view/v063i19">(Lindgren y Rue, 2015</a>; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2937741">Rue y col., 2017</a>; <a href="https://wires.onlinelibrary.wiley.com/doi/abs/10.1002/wics.1443">Bakka y col., 2018)</a>, que permite realizar la inferencia Bayesiana en un conjunto de modelos aditivos estructurados, denominados <em>modelos Gaussianos latentes</em> (LGMs). El método de <strong>INLA</strong> permite el cálculo de las dsitribuciones posteriores conjuntas, las distribuciones marginales de cada parámetro e hiperparámetro, así como combinaciones de estos o las distribuciones predictivas posteriores.</p>
+<p>El núcleo de <strong>INLA</strong> es la <em>aproximación de Laplace</em> aplicada a la expresión de la distribución de probabilidad condicional del <em>campo latente</em>. Esto implica que la estructura latente debe ser la de un <em>campo Gaussiano Markoviano aleatorio</em> (GMRF) que puede ligarse a <em>modelos Gaussianos latentes</em> <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2011.00777.x">(Lindgren, Rue y Lindström)</a>. Aunque muchos modelos pueden ser re-escritos de tal modo que su estructura sea sigmilar a la de un LGM.</p>
+<h2 id="aproximación-de-laplace">Aproximación de Laplace</h2>
+<p>La aproximación de Laplace para una función de densidad  
+<span class="math align-center">$f(x)$</span> supone la transformación mediante logaritmos y la realización de un desarrollo en serie de Taylor de segundo orden, evaluado en la moda de la función:</p>
+
+<span class="math align-center">
+$$ \begin{array}{r l}
+\int_X f(x)dx& =\int_X\exp[\log(f(x))]dx\\ &\approx \int_X \exp\left( \log(f(x_0)) + (x-x_0)\left.\frac{\partial \log(f(x))}{\partial x}\right\vert_{x=x_0} + \frac{(x-x_0)^2}{2}\left.\frac{\partial^2 \log(f(x))}{\partial x}^2\right\vert_{x=x_0}\right)dx,
+\end{array}
+$$
+</span>
+<p>donde la función 
+<span class="math align-center">$f(x)$</span> será evaluada en la moda, 
+<span class="math align-center">$\left.f(x)\right\vert_{x=x_0}$</span>, tal que</p>
+
+<span class="math align-center">$$x_0=\{x:\frac{\partial f(x)}{\partial x}=0 \wedge \frac{\partial^2 f(x)}{\partial x^2} \neq 0 \}.$$</span>
+<p>Esto es, la función queda evaluada cuando la primera derivada es nula, por lo que el término del desarrollo en serie de Taylor de primer orden puede ser simplificado. Además, si expresamos el término de segundo orden como</p>
+
+<span class="math align-center">$$\sigma^2=\left.\frac{1}{\partial^2 \log(f(x))/\partial x^2}\right\vert_{x=x_0},$$</span>
+<p>entonces podemos expresar la aproximación de Laplace como  el kernel de una función Gaussiana:</p>
+
+<span class="math align-center">$$\int_Xf(x)dx\approx f(x_0)\cdot \int_X \exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)dx.$$</span>
+<h2 id="campo-gaussiano-markoviano-aleatorio">Campo Gaussiano Markoviano Aleatorio</h2>
+<p>Los <em>campos Gaussianos Markovianos aleatorios</em> (GMRF)</p>
+<h2 id="campo-gaussiano-aleatorio">Campo Gaussiano Aleatorio</h2>
+<h2 id="artículos-fundamentales">Artículos Fundamentales</h2>
+<ol>
+<li>
+<div class="csl-entry">Bakka, H., Rue, H., Fuglstad, G.-A., Riebler, A. I., Bolin, D., Illian, J., Krainski, E., Simpson, D. P., &#38; Lindgren, F. K. (2018). Spatial modelling with INLA: A review. In <i>Wires</i> (Vol. xx, Issue Feb).</div>
+</li>
+<li>
+<div class="csl-entry">Lindgren, F., Rue, H., &#38; Lindström, J. (2011). An explicit link between gaussian fields and gaussian markov random fields: The stochastic partial differential equation approach. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>73</i>(4). https://doi.org/10.1111/j.1467-9868.2011.00777.x</div>
+</li>
+<li>
+<div class="csl-entry">Lindgren, F., &#38; Rue, H. (2015). Bayesian spatial modelling with R-INLA. <i>Journal of Statistical Software</i>, <i>63</i>(19). https://doi.org/10.18637/jss.v063.i19</div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., Martino, S., &#38; Chopin, N. (2009). Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>71</i>(2). https://doi.org/10.1111/j.1467-9868.2008.00700.x</div>
+</li>
+</ol>
+<h2 id="libros">Libros</h2>
+<ol>
+<li>
+<div class="csl-entry">Blangiardo, M., &#38; Cameletti, M. (2015). Spatial and Spatio-temporal Bayesian Models with R - INLA. In <i>Spatial and Spatio-temporal Bayesian Models with R - INLA</i>. Wiley. https://doi.org/10.1002/9781118950203</div>
+</li>
+<li>
+<div class="csl-entry">Gómez-Rubio, V. (2020). Bayesian Inference with INLA. In <i>Bayesian Inference with INLA</i>. Chapman &#38; Hall/CRC Press. https://doi.org/10.1201/9781315175584</div>
+</li>
+<li>
+<div class="csl-entry">Moraga, P. (2019). <i>Geospatial Health Data</i>. Chapman and Hall/CRC. https://doi.org/10.1201/9780429341823</div>
+</li>
+<li>
+<div class="csl-entry">Krainski, E., Gómez-Rubio, V., Bakka, H., Lenzi, A., Castro-Camilo, D., Simpson, D., Lindgren, F., &#38; Rue, H. (2018). Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA. In <i>Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA</i>. https://doi.org/10.1201/9780429031892</div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., &#38; Held, L. (2005). <i>Gaussian Markov Random Fields</i>. Chapman and Hall/CRC. https://doi.org/10.1201/9780203492024</div>
+</li>
+<li>
+<div class="csl-entry">Xiaofeng Wang, Ryan Yue, &#38; Faraway, J. J. (2018). <i>Bayesian Regression Modeling with INLA</i>. Chapman &#38; Hall .</div>
+</li>
+</ol>
 
             <footer class="footline">
             </footer>
@@ -98,6 +159,32 @@
 
           <section>
             <h1 class="a11y-only">Subsecciones de INLA</h1>
+          <article class="default">
+<h1 id="operaciones-b%C3%A1sicas">Operaciones Básicas</h1>
+
+<p>En este apartado expondremos distintas funciones y operaciones básicas, que son fundamentales para la modelización con INLA.</p>
+
+<ul class="children children-li children-sort-weight">
+	
+<li><a href="../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples</a><p>Ejemplos simples de modelos lineales.</p></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsecciones de Operaciones Básicas</h1>
+          <article class="default">
+<h1 id="modelos-lineales-simples">Modelos Lineales Simples</h1>
+
+<p>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así ejemplificar cómo operar con R-INLA.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          </section>
           <article class="default">
 <h1 id="funciones-varias">Funciones Varias</h1>
 
@@ -585,9 +672,9 @@ $$\{p_{(k-1)i},p_{(k-3)i},...,\}\in P_H \Rightarrow p_{(k-1-2m)i}\in P_H: m\in M
 
           </section>
           <article class="default">
-<h1 id="modelos-espaciales">Modelos Espaciales</h1>
+<h1 id="modelos-espaciales-spde-fem">Modelos Espaciales (SPDE-FEM)</h1>
 
-<p>En esta sección expondremos cómo realizar distintos tipos de modelos espaciales con INLA en el entonrno <strong>R-INLA</strong>:</p>
+<p>En esta sección expondremos cómo realizar distintos tipos de modelos espaciales con INLA en el entorno <strong>R-INLA</strong>:</p>
 
 <ul class="children children-li children-sort-weight">
 	
@@ -601,7 +688,7 @@ $$\{p_{(k-1)i},p_{(k-3)i},...,\}\in P_H \Rightarrow p_{(k-1-2m)i}\in P_H: m\in M
           </article>
 
           <section>
-            <h1 class="a11y-only">Subsecciones de Modelos Espaciales</h1>
+            <h1 class="a11y-only">Subsecciones de Modelos Espaciales (SPDE-FEM)</h1>
           <article class="default">
 <h1 id="modelo-geoestad%C3%ADstico">Modelo Geoestadístico</h1>
 
