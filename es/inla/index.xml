@@ -15,6 +15,14 @@
 Modelos Lineales SimplesEjemplos simples de modelos lineales.</description>
     </item>
     <item>
+      <title>Extensiones de INLA</title>
+      <link>https://MarioFigueiraP.github.io/es/inla/extensions/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/es/inla/extensions/index.html</guid>
+      <description>En esta sección realizamos una pequeña recopilación de paquetes o librerías que resultan en extensiones del paquete R-INLA.
+dirinlaEjemplos empleando el paquete dirinla para Datos Composicionales (CoDa).</description>
+    </item>
+    <item>
       <title>Funciones Varias</title>
       <link>https://MarioFigueiraP.github.io/es/inla/variousfunctions/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

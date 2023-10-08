@@ -98,7 +98,7 @@
   <ul>
     <li><a href="#aproximación-de-laplace">Aproximación de Laplace</a></li>
     <li><a href="#campo-gaussiano-markoviano-aleatorio">Campo Gaussiano Markoviano Aleatorio</a></li>
-    <li><a href="#campo-gaussiano-aleatorio">Campo Gaussiano Aleatorio</a></li>
+    <li><a href="#campos-gaussianos-latentes">Campos Gaussianos latentes</a></li>
     <li><a href="#artículos-fundamentales">Artículos Fundamentales</a></li>
     <li><a href="#libros">Libros</a></li>
   </ul>
@@ -138,42 +138,137 @@ $$
 
 <span class="math align-center">$$\int_Xf(x)dx\approx f(x_0)\cdot \int_X \exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)dx.$$</span>
 <h2 id="campo-gaussiano-markoviano-aleatorio">Campo Gaussiano Markoviano Aleatorio</h2>
-<p>Los <em>campos Gaussianos Markovianos aleatorios</em> (GMRF)</p>
-<h2 id="campo-gaussiano-aleatorio">Campo Gaussiano Aleatorio</h2>
+<p>Un <em>campo Gaussiano Markoviano aleatorio</em> (GMRF) es un <em>campo Gaussiano</em> (GF) con propiedades de Markov. Es decir, dado un vector aleatorio 
+<span class="math align-center">$\mathbf{x}\in \mathbb{R}^n$</span> se dice GMRF con referencia a un grafo  
+<span class="math align-center">$\mathcal{G}=(\mathcal{V}, \mathcal{E})$</span> con media 
+<span class="math align-center">$\boldsymbol\mu$</span> y matriz de precisión (simétrica definida positiva) 
+<span class="math align-center">$\mathbf{Q}>0$</span> si su densidad tiene la siguiente estructura</p>
+
+<span class="math align-center">$$\pi(\mathbf{x})=(2\pi)^{-n/2}|\mathbf{Q}|^{1/2}\exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol\mu)^T\mathbf{Q}(\mathbf{x}-\boldsymbol\mu)\right),$$</span>
+<p>y</p>
+
+<span class="math align-center">$$(\forall i\neq j) \left\lbrace Q_{ij}\neq 0 \iff \{i,j\}\in \mathcal{E}\right\rbrace.$$</span>
+<p>Si la matriz de precisión 
+<span class="math align-center">$\mathbf{Q}$</span> es completamente densa entonces el grafo 
+<span class="math align-center">$\mathcal{G}$</span> está completamente conectado. Esto implica que cualquier distribución normal con matriz de covarianzas <i> simétrica definida positiva</i> (SPD) es un GMRF y vice versa.</p>
+<p>En el caso en el que 
+<span class="math align-center">$\mathbf{Q}$</span> es dispersa entonces las propiedades de los GMRFs son realmente útiles y podremos hacer uso de ellas. En particular, una propiedades de gran utilidad es la intepretación de las distribuciones condicionales de los elementos de un GMRF.</p>
+<p>Supongamos que 
+<span class="math align-center">$\mathbf{x}$</span> es un GMRF con respecto a un grafo 
+<span class="math align-center">$\mathcal{G}=(\mathcal{V}, \mathcal{E})$</span>, con media 
+<span class="math align-center">$\boldsymbol\mu$</span> y matriz de precisión (simétrica definida positiva) 
+<span class="math align-center">$\mathbf{Q}>0$</span>, entonces</p>
+
+<span class="math align-center">$$\begin{array}{rcl}
+\text{E}(x_i|\mathbf{x}_{-i}) & = & \mu_i - \frac{1}{Q_{ii}}\sum_{j:j\sim i}Q_{ij}(x_j-\mu_j),\\
+\text{Prec}(x_i|\mathbf{x}_{-i}) & = & Q_{ii},\\
+\text{Corr}(x_i,x_j|\mathbf{x}_{-ij}) & = & -\frac{Q_{ij}}{\sqrt{Q_{ii}Q_{jj}}},\quad  i\neq j.\\
+\end{array}
+$$</span>
+<p>Los elementos diagonales de 
+<span class="math align-center">$\mathbf{Q}$</span> son las precisiones condicionales de 
+<span class="math align-center">$x_i$</span> dado 
+<span class="math align-center">$\mathbf{x}_{-i}$</span>, mientras que los elementos fuera de la diagonal, con un escalado, son la correlación condicional entre 
+<span class="math align-center">$x_i$</span> y 
+<span class="math align-center">$x_j$</span>, dados 
+<span class="math align-center">$\mathbf{x}_{-ij}$</span>.</p>
+<h2 id="campos-gaussianos-latentes">Campos Gaussianos latentes</h2>
+<p>La estructura en la que se basa <strong>INLA</strong> puede sintetizarse en el siguiente modelo jerárquico:</p>
+
+<span class="math align-center">$$\begin{array}{rcl}
+\mathbf{y}|\mathbf{\mathcal{X}},\boldsymbol\theta_1 & \sim & \prod_{i=1}^{n}\pi(y_i|\mathcal{X}_i,\boldsymbol\theta_1),\\
+\mathbf{\mathcal{X}}|\boldsymbol\theta_2 & \sim & N(\mathbf{0},\mathbf{Q}_{\mathbf{\mathcal{X}}}^{-1}(\boldsymbol\theta_2)),\\
+\boldsymbol\theta=\{\boldsymbol\theta_1,\boldsymbol\theta_2\} & \sim & \pi(\boldsymbol\theta),\\
+\end{array}
+$$</span>
+<p>donde 
+<span class="math align-center">$\mathbf{y}|\mathbf{\mathcal{X}},\boldsymbol\theta_1$</span> es la parte relativa a los datos (o verosimilitud), siendo 
+<span class="math align-center">$\mathbf{\mathcal{X}}$</span> los elementos del campo latente y 
+<span class="math align-center">$\boldsymbol\theta_1$</span> los hiperparámetros de la verosimilitud. Los elementos del campo latente se distribuyen según 
+<span class="math align-center">$\mathbf{\mathcal{X}}|\boldsymbol\theta_2$</span>, siguiendo un GMRF de media 
+<span class="math align-center">$\mathbf{0}$</span> y la estructura del campo latente queda integrada en la estructura de la matriz de precisión 
+<span class="math align-center">$\mathbf{Q}_{\mathbf{\mathcal{X}}}^{-1}(\boldsymbol\theta_2)$</span>, donde 
+<span class="math align-center">$\boldsymbol\theta_2$</span> son los hiperparámetros del campo latente. Finalmente, el último nivel es el relativo a la distribución de los hiperparámetros del modelo 
+<span class="math align-center">$(\boldsymbol\theta)$</span>, comprendiendo tanto a los de la verosimilitud 
+<span class="math align-center">$(\boldsymbol\theta_1)$</span> como los relativos al campo latente 
+<span class="math align-center">$(\boldsymbol\theta_2)$</span>.</p>
+<p>El segundo nivel es el <em>campo Gaussiano latente</em>, que constituye un <em>modelo Gaussiano latente</em> (LGM). Los LGMs son una clase de modelos que siguen procesos Gaussianos, sea tanto para series temporales, modelos espaciales, efectos aleatorios <em>iid</em>, efectos aleatorios cluster, etc. Por tanto, el campo Gaussiano que tiene la anterior estructura puede también formularse según el predictor lineal del modelo como</p>
+
+<span class="math align-center">$$\begin{array}{c}
+\boldsymbol\eta=\beta_0\mathbf{1} + \boldsymbol\beta\mathbf{X} + \sum_{k=1}^K f_k(\mathbf{u}_k),
+\end{array}
+$$</span>
+<p>donde 
+<span class="math align-center">$(\beta_0, \boldsymbol\beta)$</span> son los parámetros asociados a los efectos lineales, mientras que 
+<span class="math align-center">$\{\mathbf{f}\}$</span> son funciones desconocidas de los efectos aleatorios 
+<span class="math align-center">$\mathbf{U}=\{\mathbf{u}\}$</span>, pudiendo tener estructuras muy variadas: <em>iid</em>, <em>random walk</em>, <em>Besag</em>, <em>SPDE</em> (<em>stochastic partial differential equation</em>), etc.</p>
+<p>Partiendo de la anterior expresión, podemos reformularla en términos matriciales 
+<span class="math align-center">$\boldsymbol\eta=\mathbf{A}_j\mathbf{u}_j$</span>, donde se ligan los efectos 
+<span class="math align-center">$(\mathbf{u}_j)$</span> con el predictor de las observaciones 
+<span class="math align-center">$(\boldsymbol\eta)$</span> a través de una matriz de proyección 
+<span class="math align-center">$(\mathbf{A}_j)$</span> relativa a cada efecto 
+<span class="math align-center">$(\mathbf{u}_j)$</span>. Esta matriz de proyección incorpora los pesos asociadas a los efectos, por ejemplo los valores de las variables explicativas para los efectos lineales, pesos asociados a estructuras de suavizado o pesos asociados a SPDEs. Es decir, podemos re-escribirlo como</p>
+
+<span class="math align-center">$$
+\boldsymbol\eta=\left(
+\begin{array}{c}
+\boldsymbol\eta_1\\ \hline
+\vdots \\ \hline 
+\boldsymbol\eta_J
+\end{array}\right)=\left(
+\begin{array}{c|c|c|c}
+\mathbf{A}_1 & \mathbf{0} & \cdots & \mathbf{0}\\ \hline
+\mathbf{0} & \mathbf{A}_2 & \cdots & \mathbf{0}\\ \hline 
+\mathbf{0} & \mathbf{0} & \cdots & \mathbf{A}_J
+\end{array}\right) 
+\left(
+\begin{array}{c}
+\mathbf{u}_1\\ \hline
+\mathbf{u}_2 \\ \hline
+\vdots \\ \hline 
+\mathbf{u}_J
+\end{array}\right),
+$$</span>
+<p>donde cada efecto 
+<span class="math align-center">$\mathbf{u}_j:j\in (1,...,J)$</span> está ligado a su correspondiente matriz de proyección 
+<span class="math align-center">$\mathbf{A}_j$</span>.</p>
 <h2 id="artículos-fundamentales">Artículos Fundamentales</h2>
 <ol>
 <li>
-<div class="csl-entry">Bakka, H., Rue, H., Fuglstad, G.-A., Riebler, A. I., Bolin, D., Illian, J., Krainski, E., Simpson, D. P., &#38; Lindgren, F. K. (2018). Spatial modelling with INLA: A review. In <i>Wires</i> (Vol. xx, Issue Feb).</div>
+<div class="csl-entry">Bakka, H., Rue, H., Fuglstad, G.-A., Riebler, A. I., Bolin, D., Illian, J., Krainski, E., Simpson, D. P., &#38; Lindgren, F. K. (2018). Spatial modelling with INLA: A review. In <i>Wires</i> (Vol. xx, Issue Feb). <a href="https://doi.org/10.1002/wics.1443">https://doi.org/10.1002/wics.1443</a></div>
 </li>
 <li>
-<div class="csl-entry">Lindgren, F., Rue, H., &#38; Lindström, J. (2011). An explicit link between gaussian fields and gaussian markov random fields: The stochastic partial differential equation approach. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>73</i>(4). https://doi.org/10.1111/j.1467-9868.2011.00777.x</div>
+<div class="csl-entry">Lindgren, F., Rue, H., &#38; Lindström, J. (2011). An explicit link between gaussian fields and gaussian markov random fields: The stochastic partial differential equation approach. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>73</i>(4). <a href="https://doi.org/10.1111/j.1467-9868.2011.00777.x">https://doi.org/10.1111/j.1467-9868.2011.00777.x</a></div>
 </li>
 <li>
-<div class="csl-entry">Lindgren, F., &#38; Rue, H. (2015). Bayesian spatial modelling with R-INLA. <i>Journal of Statistical Software</i>, <i>63</i>(19). https://doi.org/10.18637/jss.v063.i19</div>
+<div class="csl-entry">Lindgren, F., &#38; Rue, H. (2015). Bayesian spatial modelling with R-INLA. <i>Journal of Statistical Software</i>, <i>63</i>(19). <a href="https://doi.org/10.18637/jss.v063.i19">https://doi.org/10.18637/jss.v063.i19</a></div>
 </li>
 <li>
-<div class="csl-entry">Rue, H., Martino, S., &#38; Chopin, N. (2009). Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>71</i>(2). https://doi.org/10.1111/j.1467-9868.2008.00700.x</div>
+<div class="csl-entry">Rue, H., Martino, S., &#38; Chopin, N. (2009). Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>71</i>(2). <a href="https://doi.org/10.1111/j.1467-9868.2008.00700.x">https://doi.org/10.1111/j.1467-9868.2008.00700.x</a></div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., Riebler, A., Sørbye, S., Illian, J., Simpson, D. &#38; Lindgren, F. (2017). Bayesian Computing with INLA: A Review. <i>Annual Review of Statistics and Its Application</i>, <i>4:1, 395-421</i>. <a href="https://doi.org/10.1146/annurev-statistics-060116-054045">https://doi.org/10.1146/annurev-statistics-060116-054045</a></div>
 </li>
 </ol>
 <h2 id="libros">Libros</h2>
 <ol>
 <li>
-<div class="csl-entry">Blangiardo, M., &#38; Cameletti, M. (2015). Spatial and Spatio-temporal Bayesian Models with R - INLA. In <i>Spatial and Spatio-temporal Bayesian Models with R - INLA</i>. Wiley. https://doi.org/10.1002/9781118950203</div>
+<div class="csl-entry">Blangiardo, M., &#38; Cameletti, M. (2015). Spatial and Spatio-temporal Bayesian Models with R - INLA. In <i>Spatial and Spatio-temporal Bayesian Models with R - INLA</i>. Wiley. <a href="https://doi.org/10.1002/9781118950203">https://doi.org/10.1002/9781118950203</a></div>
 </li>
 <li>
-<div class="csl-entry">Gómez-Rubio, V. (2020). Bayesian Inference with INLA. In <i>Bayesian Inference with INLA</i>. Chapman &#38; Hall/CRC Press. https://doi.org/10.1201/9781315175584</div>
+<div class="csl-entry">Gómez-Rubio, V. (2020). Bayesian Inference with INLA. In <i>Bayesian Inference with INLA</i>. Chapman &#38; Hall/CRC Press. <a href="https://doi.org/10.1201/9781315175584">https://doi.org/10.1201/9781315175584</a></div>
 </li>
 <li>
-<div class="csl-entry">Moraga, P. (2019). <i>Geospatial Health Data</i>. Chapman and Hall/CRC. https://doi.org/10.1201/9780429341823</div>
+<div class="csl-entry">Moraga, P. (2019). <i>Geospatial Health Data</i>. Chapman and Hall/CRC. <a href="https://doi.org/10.1201/9780429341823">https://doi.org/10.1201/9780429341823</a></div>
 </li>
 <li>
-<div class="csl-entry">Krainski, E., Gómez-Rubio, V., Bakka, H., Lenzi, A., Castro-Camilo, D., Simpson, D., Lindgren, F., &#38; Rue, H. (2018). Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA. In <i>Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA</i>. https://doi.org/10.1201/9780429031892</div>
+<div class="csl-entry">Krainski, E., Gómez-Rubio, V., Bakka, H., Lenzi, A., Castro-Camilo, D., Simpson, D., Lindgren, F., &#38; Rue, H. (2018). Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA. In <i>Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA</i>. <a href="https://doi.org/10.1201/9780429031892">https://doi.org/10.1201/9780429031892</a></div>
 </li>
 <li>
-<div class="csl-entry">Rue, H., &#38; Held, L. (2005). <i>Gaussian Markov Random Fields</i>. Chapman and Hall/CRC. https://doi.org/10.1201/9780203492024</div>
+<div class="csl-entry">Rue, H., &#38; Held, L. (2005). <i>Gaussian Markov Random Fields</i>. Chapman and Hall/CRC. <a href="https://doi.org/10.1201/9780203492024">https://doi.org/10.1201/9780203492024</a></div>
 </li>
 <li>
-<div class="csl-entry">Xiaofeng Wang, Ryan Yue, &#38; Faraway, J. J. (2018). <i>Bayesian Regression Modeling with INLA</i>. Chapman &#38; Hall .</div>
+<div class="csl-entry">Xiaofeng Wang, Ryan Yue, &#38; Faraway, J. J. (2018). <i>Bayesian Regression Modeling with INLA</i>. Chapman &#38; Hall.</div>
 </li>
 </ol>
 
@@ -212,6 +307,11 @@ $$
           <li data-nav-id="/es/inla/index.html" class="dd-item active parent"><input type="checkbox" id="section-3d8afea5515ebe07961312ecdef11d71" aria-controls="subsections-3d8afea5515ebe07961312ecdef11d71" class="toggle" checked><label class="a11y-only toggle" for="section-3d8afea5515ebe07961312ecdef11d71" >Submenú INLA</label><a href="../../es/inla/index.html"><b>1. </b>INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-3d8afea5515ebe07961312ecdef11d71">
           <li data-nav-id="/es/inla/basicoperationalinfo/index.html" class="dd-item"><input type="checkbox" id="section-d33a80c8ca404888025a920ae41964d5" aria-controls="subsections-d33a80c8ca404888025a920ae41964d5" class="toggle"><label class="a11y-only toggle" for="section-d33a80c8ca404888025a920ae41964d5" >Submenú Operaciones Básicas</label><a href="../../es/inla/basicoperationalinfo/index.html">Operaciones Básicas<i class="fas fa-check read-icon"></i></a><ul id="subsections-d33a80c8ca404888025a920ae41964d5">
           <li data-nav-id="/es/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/es/inla/extensions/index.html" class="dd-item"><input type="checkbox" id="section-88d39a17e227884620f6481637dd81cc" aria-controls="subsections-88d39a17e227884620f6481637dd81cc" class="toggle"><label class="a11y-only toggle" for="section-88d39a17e227884620f6481637dd81cc" >Submenú Extensiones de INLA</label><a href="../../es/inla/extensions/index.html">Extensiones de INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-88d39a17e227884620f6481637dd81cc">
+          <li data-nav-id="/es/inla/extensions/dirinla/index.html" class="dd-item"><input type="checkbox" id="section-16d704edcc40db29f19556de248b7ece" aria-controls="subsections-16d704edcc40db29f19556de248b7ece" class="toggle"><label class="a11y-only toggle" for="section-16d704edcc40db29f19556de248b7ece" >Submenú dirinla</label><a href="../../es/inla/extensions/dirinla/index.html">dirinla<i class="fas fa-check read-icon"></i></a><ul id="subsections-16d704edcc40db29f19556de248b7ece">
+          <li data-nav-id="/es/inla/extensions/dirinla/linear_effects/index.html" class="dd-item"><a href="../../es/inla/extensions/dirinla/linear_effects/index.html">Ejemplos con efectos fijos<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/extensions/dirinla/unstructure_random_effects/index.html" class="dd-item"><a href="../../es/inla/extensions/dirinla/unstructure_random_effects/index.html">Ejemplos con efectos iid aleatorios<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/extensions/dirinla/spde2_random_effects/index.html" class="dd-item"><a href="../../es/inla/extensions/dirinla/spde2_random_effects/index.html">Ejemplos con efectos aleatorios espacialmente estructurados<i class="fas fa-check read-icon"></i></a></li></ul></li></ul></li>
           <li data-nav-id="/es/inla/variousfunctions/index.html" class="dd-item"><input type="checkbox" id="section-647dff3011d5e04f7f57bb0bf5f84eb8" aria-controls="subsections-647dff3011d5e04f7f57bb0bf5f84eb8" class="toggle"><label class="a11y-only toggle" for="section-647dff3011d5e04f7f57bb0bf5f84eb8" >Submenú Funciones Varias</label><a href="../../es/inla/variousfunctions/index.html">Funciones Varias<i class="fas fa-check read-icon"></i></a><ul id="subsections-647dff3011d5e04f7f57bb0bf5f84eb8">
           <li data-nav-id="/es/inla/variousfunctions/inlatosp/index.html" class="dd-item"><a href="../../es/inla/variousfunctions/inlatosp/index.html">Transformación a sp/sf<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/es/inla/spatialmodels/index.html" class="dd-item"><input type="checkbox" id="section-db6daab276ae6b8a9baf7582683f1fe5" aria-controls="subsections-db6daab276ae6b8a9baf7582683f1fe5" class="toggle"><label class="a11y-only toggle" for="section-db6daab276ae6b8a9baf7582683f1fe5" >Submenú Modelos Espaciales (SPDE-FEM)</label><a href="../../es/inla/spatialmodels/index.html">Modelos Espaciales (SPDE-FEM)<i class="fas fa-check read-icon"></i></a><ul id="subsections-db6daab276ae6b8a9baf7582683f1fe5">

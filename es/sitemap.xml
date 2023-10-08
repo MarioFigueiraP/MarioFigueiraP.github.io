@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/linear_effects/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/extensions/dirinla/linear_effects/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/linear_effects/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/es/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -40,6 +53,19 @@
                 />
   </url>
   <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/unstructure_random_effects/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/extensions/dirinla/unstructure_random_effects/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/unstructure_random_effects/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/es/inlabru/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -76,6 +102,45 @@
                 rel="alternate"
                 hreflang="es"
                 href="https://MarioFigueiraP.github.io/es/categories/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/extensions/dirinla/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/spde2_random_effects/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/extensions/dirinla/spde2_random_effects/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/extensions/dirinla/spde2_random_effects/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/extensions/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/extensions/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/extensions/index.html"
                 />
   </url>
   <url>

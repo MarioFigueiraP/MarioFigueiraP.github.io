@@ -11,7 +11,7 @@
       <link>https://MarioFigueiraP.github.io/inla/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://MarioFigueiraP.github.io/inla/index.html</guid>
-      <description>INLA methodology </description>
+      <description>INLA methodology There are various methodologies for the computational implementation of Bayesian inference, simulation methods such as MCMC (Markov chain Monte Carlo), or approximate methods like VB (variational Bayes); all of them with their own challenges. However, INLA (Integrated Nested Laplace Approximation) is a deterministic approximate approach, developed by (Rue, Martino y Chopin, 2009) and expanded upon in (Lindgren y Rue, 2015; Rue y col., 2017; Bakka y col., 2018). .</description>
     </item>
     <item>
       <title>inlabru</title>

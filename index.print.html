@@ -107,6 +107,162 @@
           <article class="chapter deprecated">
 
 <h1 id="inla-methodology">INLA methodology</h1>
+<p>There are various methodologies for the computational implementation of Bayesian inference, simulation methods such as MCMC (Markov chain Monte Carlo), or approximate methods like VB (variational Bayes); all of them with their own challenges. However, <strong>INLA</strong> (Integrated Nested Laplace Approximation) is a deterministic approximate approach, developed by <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2008.00700.x">(Rue, Martino y Chopin, 2009)</a> and expanded upon in <a href="https://www.jstatsoft.org/article/view/v063i19">(Lindgren y Rue, 2015</a>; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2937741">Rue y col., 2017</a>; <a href="https://wires.onlinelibrary.wiley.com/doi/abs/10.1002/wics.1443">Bakka y col., 2018)</a>. . It allows for Bayesian inference in a set of structured additive models, termed <em>latent Gaussian models</em> (LGMs). The <strong>INLA</strong> method enables the calculation of joint posterior distributions, the marginal distributions of each parameter and hyperparameter, as well as combinations of these or the posterior predictive distributions.</p>
+<p>At the core of INLA is the Laplace approximation applied to the expression of the conditional probability distribution of the latent field. This implies that the latent structure must follow a <em>Gaussian Markov Random Field</em> (GMRF) that can be linked to <em>latent Gaussian models</em> <a href="https://rss.onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2011.00777.x">(Lindgren, Rue y Lindström)</a>. Although many models can be rewritten in such a way that their structure is similar to an LGM.</p>
+<h2 id="laplace-approximation">Laplace Approximation</h2>
+<p>The Laplace approximation for a density function 
+<span class="math align-center">$f(x)$</span> involves transformation using logarithms and carrying out a second-order Taylor series expansion, evaluated at the mode of the function:</p>
+
+<span class="math align-center">
+$$ \begin{array}{r l}
+\int_X f(x)dx& =\int_X\exp[\log(f(x))]dx\\ &\approx \int_X \exp\left( \log(f(x_0)) + (x-x_0)\left.\frac{\partial \log(f(x))}{\partial x}\right\vert_{x=x_0} + \frac{(x-x_0)^2}{2}\left.\frac{\partial^2 \log(f(x))}{\partial x}^2\right\vert_{x=x_0}\right)dx,
+\end{array}
+$$
+</span>
+<p>where the function 
+<span class="math align-center">$f(x)$</span> will be evaluated at the mode, 
+<span class="math align-center">$\left.f(x)\right\vert_{x=x_0}$</span>, such that</p>
+
+<span class="math align-center">$$x_0=\{x:\frac{\partial f(x)}{\partial x}=0 \wedge \frac{\partial^2 f(x)}{\partial x^2} \neq 0 \}.$$</span>
+<p>That is, the function is evaluated when the first derivative is null, so the first-order term in the Taylor series expansion can be simplified. Also, if we express the second-order term as</p>
+
+<span class="math align-center">$$\sigma^2=\left.\frac{1}{\partial^2 \log(f(x))/\partial x^2}\right\vert_{x=x_0},$$</span>
+<p>then we can express the Laplace approximation as the kernel of a Gaussian function:</p>
+
+<span class="math align-center">$$\int_Xf(x)dx\approx f(x_0)\cdot \int_X \exp\left(-\frac{(x-x_0)^2}{2\sigma^2}\right)dx.$$</span>
+<h2 id="gaussian-markov-random-field">Gaussian Markov Random Field</h2>
+<p>A <em>Gaussian MArkov Random Field</em> (GMRF) is a <em>Gaussian Field</em> (GF) with Markov properties. This means that, given a random vector 
+<span class="math align-center">$\mathbf{x}\in \mathbb{R}^n$</span> is said GMRF with reference to a graph 
+<span class="math align-center">$\mathcal{G}=(\mathcal{V}, \mathcal{E})$</span> with mean 
+<span class="math align-center">$\boldsymbol\mu$</span> and precision matrix (symmetric positive difenite) 
+<span class="math align-center">$\mathbf{Q}>0$</span> if its density has the following structure</p>
+
+<span class="math align-center">$$\pi(\mathbf{x})=(2\pi)^{-n/2}|\mathbf{Q}|^{1/2}\exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol\mu)^T\mathbf{Q}(\mathbf{x}-\boldsymbol\mu)\right),$$</span>
+<p>and</p>
+
+<span class="math align-center">$$(\forall i\neq j) \left\lbrace Q_{ij}\neq 0 \iff \{i,j\}\in \mathcal{E}\right\rbrace.$$</span>
+<p>If the precision matrix 
+<span class="math align-center">$\mathbf{Q}$</span> is completely dense then the network 
+<span class="math align-center">$\mathcal{G}$</span> is completely connected. This implies that any normal distribution with <i>symmetric positive definite</i> (SPD) covariance matrixes is a GMRF and vice versa.</p>
+<p>In the case where 
+<span class="math align-center">$\mathbf{Q}$</span> is sparse then the properties of GMRFs are really useful and we can make use of them. In particular, a very useful property is the interpretation of the conditional distributions of the elements of a GMRF.</p>
+<p>Suppose 
+<span class="math align-center">$\mathbf{x}$</span> is a GMRF with respect to a graph 
+<span class="math align-center">$\mathcal{G}=(\mathcal{V}, \mathcal{E})$</span>, with mean 
+<span class="math align-center">$\boldsymbol\mu$</span> and SPD precision matrix 
+<span class="math align-center">$\mathbf{Q}>0$</span>, then</p>
+
+<span class="math align-center">$$\begin{array}{rcl}
+\text{E}(x_i|\mathbf{x}_{-i}) & = & \mu_i - \frac{1}{Q_{ii}}\sum_{j:j\sim i}Q_{ij}(x_j-\mu_j),\\
+\text{Prec}(x_i|\mathbf{x}_{-i}) & = & Q_{ii},\\
+\text{Corr}(x_i,x_j|\mathbf{x}_{-ij}) & = & -\frac{Q_{ij}}{\sqrt{Q_{ii}Q_{jj}}},\quad  i\neq j.\\
+\end{array}
+$$</span>
+<p>The diagonal elements of 
+<span class="math align-center">$\mathbf{Q}$</span> are the conditional precisions of 
+<span class="math align-center">$x_i$</span> given 
+<span class="math align-center">$\mathbf{x}_{-i}$</span>, while the off-diagonal elements, with a scaling factor, are the conditional correlation between 
+<span class="math align-center">$x_i$</span> and 
+<span class="math align-center">$x_j$</span>, given 
+<span class="math align-center">$\mathbf{x}_{-ij}$</span>.</p>
+<h2 id="gaussian-latent-fields">Gaussian Latent Fields</h2>
+<p>The structure on which <strong>INLA</strong> is based can be summarised in the following hierarchical model:</p>
+
+<span class="math align-center">$$\begin{array}{rcl}
+\mathbf{y}|\mathbf{\mathcal{X}},\boldsymbol\theta_1 & \sim & \prod_{i=1}^{n}\pi(y_i|\mathcal{X}_i,\boldsymbol\theta_1),\\
+\mathbf{\mathcal{X}}|\boldsymbol\theta_2 & \sim & N(\mathbf{0},\mathbf{Q}_{\mathbf{\mathcal{X}}}^{-1}(\boldsymbol\theta_2)),\\
+\boldsymbol\theta=\{\boldsymbol\theta_1,\boldsymbol\theta_2\} & \sim & \pi(\boldsymbol\theta),\\
+\end{array}
+$$</span>
+<p>where 
+<span class="math align-center">$\mathbf{y}|\mathbf{\mathcal{X}},\boldsymbol\theta_1$</span> is the data (or likelihood) level, where 
+<span class="math align-center">$\mathbf{\mathcal{X}}$</span> are the elements of the latent field and 
+<span class="math align-center">$\boldsymbol\theta_1$</span> are the hyperparameters of the likelihood. The elements of the latent field are distributed according to 
+<span class="math align-center">$\mathbf{\mathcal{X}}|\boldsymbol\theta_2$</span>, following a GMRF with mean 
+<span class="math align-center">${0}$</span> and the latent field structure is integrated into the structure of the precision matrix 
+<span class="math align-center">$\mathbf{Q}_{\mathbf{\mathcal{X}}}^{-1}(\boldsymbol\theta_2)$</span>, where 
+<span class="math align-center">$\boldsymbol\theta_2$</span> are the hyperparameters of the latent field. Finally, the last level is the one concerning the distribution of the hyperparameters of the model 
+<span class="math align-center">$(\boldsymbol\theta)$</span>, comprising both those of the likelihood 
+<span class="math align-center">$(\boldsymbol\theta_1)$</span> and those concerning the latent field 
+<span class="math align-center">$(\boldsymbol\theta_2)$</span>.</p>
+<p>The second level is the <em>latent Gaussian field</em>, which constitutes a <em>latent Gaussian model</em> (LGM). LGMs are a class of models that follow Gaussian processes, be it for time series, spatial models, <em>iid</em> random effects, cluster random effects, etc. Therefore, the Gaussian field that has the above structure can also be formulated according to the linear predictor of the model as</p>
+
+<span class="math align-center">$$\begin{array}{c}
+\boldsymbol\eta=\beta_0\mathbf{1} + \boldsymbol\beta\mathbf{X} + \sum_{k=1}^K f_k(\mathbf{u}_k),
+\end{array}
+$$</span>
+<p>where 
+<span class="math align-center">$(\beta_0, \boldsymbol\beta)$</span> are the parameters associated with the linear effects, while 
+<span class="math align-center">$\{\mathbf{f}\}$</span> are the unknown functions of the random effects 
+<span class="math align-center">$\mathbf{U}=\{\mathbf{u}\}</span>, which can have very different structures: <em>iid</em>, <em>random walks</em>, <em>Besag</em>, <em>SPDE</em> (<em>Stochastic Partial Differential Equation</em>), etc.</p>
+<p>Based on the above expression, we can reformulate it in matrix terms 
+<span class="math align-center">$\boldsymbol\eta=\mathbf{A}_j\mathbf{u}_j$</span>, where the effects 
+<span class="math align-center">$(\mathbf{u}_j)$</span> are linked to the predictor of the observations 
+<span class="math align-center">$(\boldsymbol\eta)$</span> through a projection matrix 
+<span class="math align-center">$(\mathbf{A}_j)$</span> relative to each effect 
+<span class="math align-center">$(\mathbf{u}_j)$</span>. This projection matrix integrates the weights associated with the effects, i.e. the values of the explanatory variables for linear effects, smoothing weights or associated weights with SPDEs. That is, we can rewrite it as</p>
+
+<span class="math align-center">$$
+\boldsymbol\eta=\left(
+\begin{array}{c}
+\boldsymbol\eta_1\\ \hline
+\vdots \\ \hline 
+\boldsymbol\eta_J
+\end{array}\right)=\left(
+\begin{array}{c|c|c|c}
+\mathbf{A}_1 & \mathbf{0} & \cdots & \mathbf{0}\\ \hline
+\mathbf{0} & \mathbf{A}_2 & \cdots & \mathbf{0}\\ \hline 
+\mathbf{0} & \mathbf{0} & \cdots & \mathbf{A}_J
+\end{array}\right) 
+\left(
+\begin{array}{c}
+\mathbf{u}_1\\ \hline
+\mathbf{u}_2 \\ \hline
+\vdots \\ \hline 
+\mathbf{u}_J
+\end{array}\right),
+$$</span>
+<p>where each effect 
+<span class="math align-center">$\mathbf{u}_j:j\in (1,...,J)$</span> is linked to its corresponding projection matrix 
+<span class="math align-center">$\mathbf{A}_j$</span>.</p>
+<h2 id="key-articles">Key Articles</h2>
+<ol>
+<li>
+<div class="csl-entry">Bakka, H., Rue, H., Fuglstad, G.-A., Riebler, A. I., Bolin, D., Illian, J., Krainski, E., Simpson, D. P., &#38; Lindgren, F. K. (2018). Spatial modelling with INLA: A review. In <i>Wires</i> (Vol. xx, Issue Feb). <a href="https://doi.org/10.1002/wics.1443">https://doi.org/10.1002/wics.1443</a></div>
+</li>
+<li>
+<div class="csl-entry">Lindgren, F., Rue, H., &#38; Lindström, J. (2011). An explicit link between gaussian fields and gaussian markov random fields: The stochastic partial differential equation approach. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>73</i>(4). <a href="https://doi.org/10.1111/j.1467-9868.2011.00777.x">https://doi.org/10.1111/j.1467-9868.2011.00777.x</a></div>
+</li>
+<li>
+<div class="csl-entry">Lindgren, F., &#38; Rue, H. (2015). Bayesian spatial modelling with R-INLA. <i>Journal of Statistical Software</i>, <i>63</i>(19). <a href="https://doi.org/10.18637/jss.v063.i19">https://doi.org/10.18637/jss.v063.i19</a></div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., Martino, S., &#38; Chopin, N. (2009). Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations. <i>Journal of the Royal Statistical Society. Series B: Statistical Methodology</i>, <i>71</i>(2). <a href="https://doi.org/10.1111/j.1467-9868.2008.00700.x">https://doi.org/10.1111/j.1467-9868.2008.00700.x</a></div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., Riebler, A., Sørbye, S., Illian, J., Simpson, D. &#38; Lindgren, F. (2017). Bayesian Computing with INLA: A Review. <i>Annual Review of Statistics and Its Application</i>, <i>4:1, 395-421</i>. <a href="https://doi.org/10.1146/annurev-statistics-060116-054045">https://doi.org/10.1146/annurev-statistics-060116-054045</a></div>
+</li>
+</ol>
+<h2 id="books">Books</h2>
+<ol>
+<li>
+<div class="csl-entry">Blangiardo, M., &#38; Cameletti, M. (2015). Spatial and Spatio-temporal Bayesian Models with R - INLA. In <i>Spatial and Spatio-temporal Bayesian Models with R - INLA</i>. Wiley. <a href="https://doi.org/10.1002/9781118950203">https://doi.org/10.1002/9781118950203</a></div>
+</li>
+<li>
+<div class="csl-entry">Gómez-Rubio, V. (2020). Bayesian Inference with INLA. In <i>Bayesian Inference with INLA</i>. Chapman &#38; Hall/CRC Press. <a href="https://doi.org/10.1201/9781315175584">https://doi.org/10.1201/9781315175584</a></div>
+</li>
+<li>
+<div class="csl-entry">Moraga, P. (2019). <i>Geospatial Health Data</i>. Chapman and Hall/CRC. <a href="https://doi.org/10.1201/9780429341823">https://doi.org/10.1201/9780429341823</a></div>
+</li>
+<li>
+<div class="csl-entry">Krainski, E., Gómez-Rubio, V., Bakka, H., Lenzi, A., Castro-Camilo, D., Simpson, D., Lindgren, F., &#38; Rue, H. (2018). Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA. In <i>Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA</i>. <a href="https://doi.org/10.1201/9780429031892">https://doi.org/10.1201/9780429031892</a></div>
+</li>
+<li>
+<div class="csl-entry">Rue, H., &#38; Held, L. (2005). <i>Gaussian Markov Random Fields</i>. Chapman and Hall/CRC. <a href="https://doi.org/10.1201/9780203492024">https://doi.org/10.1201/9780203492024</a></div>
+</li>
+<li>
+<div class="csl-entry">Xiaofeng Wang, Ryan Yue, &#38; Faraway, J. J. (2018). <i>Bayesian Regression Modeling with INLA</i>. Chapman &#38; Hall.</div></li>
+</ol>
 
             <footer class="footline">
             </footer>
@@ -159,6 +315,76 @@
             </footer>
           </article>
 
+          </section>
+          <article class="default">
+<h1 id="inlas-extensions">INLA&#39;s extensions</h1>
+
+<p>In this section we will show</p>
+
+<ul class="children children-li children-sort-weight">
+	
+<li><a href="./inla/extensions/dirinla/index.html">dirinla</a><p>Examples using the dirinla R package for Compositional Data (CoDa).</p></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsections of INLA&#39;s extensions</h1>
+          <article class="default">
+<h1 id="dirinla">dirinla</h1>
+
+<p>Esta sección está dedicada específicamente al paquete <strong>dirinla</strong> que está construido sobre el enfoque implementado en <strong>R-INLA</strong>. Para que los ejemplos resulten comprensibles dedicaremos esta parte introductoria para sintetizar los fundamentos matemáticos y operativos de <strong>dirinla</strong>. Esto es, realizaremos una síntesis del artículo <a href="https://doi.org/10.1080/10618600.2022.2144330">Martínez-Minaya et al. (2023)</a> en el que se presenta el paquete y también se evaluarán algunas funciones que integran el paquete, modificándolas allí donde se considere pertinente.</p>
+<h2 id="examples">Examples</h2>
+
+<ul class="children children-li children-sort-weight">
+	
+<li><a href="./inla/extensions/dirinla/linear_effects/index.html">Example with fixed effects</a><p>Simulated Dirichlet data fitted with a fixed effects model.</p></li>
+<li><a href="./inla/extensions/dirinla/unstructure_random_effects/index.html">Example with iid (unstructured diagonal) effects</a><p>Simulated Dirichlet data fitted with iid (unstructured diagonal) random effects model.</p></li>
+<li><a href="./inla/extensions/dirinla/spde2_random_effects/index.html">Example with spatial structured random effects</a><p>Simulated Dirichlet data fitted with spatial structured random effects model.</p></li>
+</ul>
+<h2 id="inla-for-fitting-dirichlet-regression-models-summary">INLA for Fitting Dirichlet Regression Models (Summary)</h2>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<div class="csl-entry"> Joaquín Martínez-Minaya, Finn Lindgren, Antonio López-Quílez, Daniel Simpson & David Conesa (2023) The Integrated Nested Laplace Approximation for Fitting Dirichlet Regression Models, Journal of Computational and Graphical Statistics, 32:3, 805-823, DOI: <a href="https://doi.org/10.1080/10618600.2022.2144330">https://doi.org/10.1080/10618600.2022.2144330</a> </div>
+</li>
+<li>
+<div class="csl-entry"> Depaoli, S., Clifton, J. P., & Cobb, P. R. (2016). Just Another Gibbs Sampler (JAGS): Flexible Software for MCMC Implementation. Journal of Educational and Behavioral Statistics, 41(6), 628–649. <a href="http://www.jstor.org/stable/26447820">http://www.jstor.org/stable/26447820</a> </div></li>
+</ol>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsections of dirinla</h1>
+          <article class="default">
+<h1 id="example-with-fixed-effects">Example with fixed effects</h1>
+
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <article class="default">
+<h1 id="example-with-iid-unstructured-diagonal-effects">Example with iid (unstructured diagonal) effects</h1>
+
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <article class="default">
+<h1 id="example-with-spatial-structured-random-effects">Example with spatial structured random effects</h1>
+
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          </section>
           </section>
           <article class="default">
 <h1 id="spatial-models-spde-fem">Spatial Models (SPDE-FEM)</h1>
