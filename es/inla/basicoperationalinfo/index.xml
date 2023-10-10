@@ -11,7 +11,29 @@
       <link>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</guid>
-      <description>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así ejemplificar cómo operar con R-INLA.</description>
+      <description>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así exponer cómo operar con R-INLA. A lo largo de los ejemplos se comentará el código empleado y se tratará de explicar el funcionamiento de las funciones empleadas relativas al paquete R-INLA.</description>
+    </item>
+    <item>
+      <title>Stacks</title>
+      <link>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html</guid>
+      <description>Información de versiones En este rótulo inicial exponemos una lista con las versiones de los programas, sistema operativo y librearías con las que se ha ejecutado el código de la presente sección, lo cual se extrae principalmente mediante la función sessionInfo().
+SO (version): Windows 11 Home (22H2). R: 4.2.3 (2023-03-15 ucrt). RStudio: 2023.06.2 (Build 561). Libraries: INLA: INLA_23.04.24 Los stack son unas funciones implementadas en el paquete R-INLA que permite organizar la información necesaria de una fórma verátil y cómoda para posteriormente ser integrada en la llamada a la función de ajuste inla(.</description>
+    </item>
+    <item>
+      <title>Conformación de Mallas</title>
+      <link>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Características Avanzadas</title>
+      <link>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/advanced_features/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/advanced_features/index.html</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

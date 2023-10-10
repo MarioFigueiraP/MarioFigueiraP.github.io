@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="description" content="Ejemplos simples de modelos lineales.">
+    <meta name="description" content="Ejemplos simples de modelos lineales y evaluación de la salida de la función ``inla(...)``.">
     <meta name="author" content="Mario Figueira">
     <title>Modelos Lineales Simples :: Documentación</title>
     <link href="../../../../es/inla/basicoperationalinfo/linearmodels/index.xml" rel="alternate" type="application/rss+xml" title="Modelos Lineales Simples :: Documentación">
@@ -49,7 +49,7 @@
       <nav id="topbar" class="highlightable" dir="ltr">
         <div>
           <div class="navigation">
-            <a class="nav nav-next" href="../../../../es/inla/extensions/index.html" title="Extensiones de INLA (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+            <a class="nav nav-next" href="../../../../es/inla/basicoperationalinfo/stacks/index.html" title="Stacks (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
             <a class="nav nav-prev" href="../../../../es/inla/basicoperationalinfo/index.html" title="Operaciones Básicas (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
@@ -78,7 +78,7 @@
           <article class="default">
 <h1 id="modelos-lineales-simples">Modelos Lineales Simples</h1>
 
-<p>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así ejemplificar cómo operar con R-INLA.</p>
+<p>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así exponer cómo operar con <strong>R-INLA</strong>. A lo largo de los ejemplos se comentará el código empleado y se tratará de explicar el funcionamiento de las funciones empleadas relativas al paquete <strong>R-INLA</strong>.</p>
 
             <footer class="footline">
             </footer>
@@ -114,7 +114,10 @@
         <ul class="topics collapsible-menu">
           <li data-nav-id="/es/inla/index.html" class="dd-item parent"><input type="checkbox" id="section-3d8afea5515ebe07961312ecdef11d71" aria-controls="subsections-3d8afea5515ebe07961312ecdef11d71" class="toggle" checked><label class="a11y-only toggle" for="section-3d8afea5515ebe07961312ecdef11d71" >Submenú INLA</label><a href="../../../../es/inla/index.html"><b>1. </b>INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-3d8afea5515ebe07961312ecdef11d71">
           <li data-nav-id="/es/inla/basicoperationalinfo/index.html" class="dd-item parent"><input type="checkbox" id="section-d33a80c8ca404888025a920ae41964d5" aria-controls="subsections-d33a80c8ca404888025a920ae41964d5" class="toggle" checked><label class="a11y-only toggle" for="section-d33a80c8ca404888025a920ae41964d5" >Submenú Operaciones Básicas</label><a href="../../../../es/inla/basicoperationalinfo/index.html">Operaciones Básicas<i class="fas fa-check read-icon"></i></a><ul id="subsections-d33a80c8ca404888025a920ae41964d5">
-          <li data-nav-id="/es/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item active"><a href="../../../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item active"><a href="../../../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/stacks/index.html" class="dd-item"><a href="../../../../es/inla/basicoperationalinfo/stacks/index.html">Stacks<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/meshes/index.html" class="dd-item"><a href="../../../../es/inla/basicoperationalinfo/meshes/index.html">Conformación de Mallas<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/advanced_features/index.html" class="dd-item"><a href="../../../../es/inla/basicoperationalinfo/advanced_features/index.html">Características Avanzadas<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/es/inla/extensions/index.html" class="dd-item"><input type="checkbox" id="section-88d39a17e227884620f6481637dd81cc" aria-controls="subsections-88d39a17e227884620f6481637dd81cc" class="toggle"><label class="a11y-only toggle" for="section-88d39a17e227884620f6481637dd81cc" >Submenú Extensiones de INLA</label><a href="../../../../es/inla/extensions/index.html">Extensiones de INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-88d39a17e227884620f6481637dd81cc">
           <li data-nav-id="/es/inla/extensions/dirinla/index.html" class="dd-item"><input type="checkbox" id="section-16d704edcc40db29f19556de248b7ece" aria-controls="subsections-16d704edcc40db29f19556de248b7ece" class="toggle"><label class="a11y-only toggle" for="section-16d704edcc40db29f19556de248b7ece" >Submenú dirinla</label><a href="../../../../es/inla/extensions/dirinla/index.html">dirinla<i class="fas fa-check read-icon"></i></a><ul id="subsections-16d704edcc40db29f19556de248b7ece">
           <li data-nav-id="/es/inla/extensions/dirinla/linear_effects/index.html" class="dd-item"><a href="../../../../es/inla/extensions/dirinla/linear_effects/index.html">Ejemplos con efectos fijos<i class="fas fa-check read-icon"></i></a></li>

@@ -212,13 +212,14 @@ $$</span>
 <span class="math align-center">$$
 \boldsymbol\eta=\left(
 \begin{array}{c}
-\boldsymbol\eta_1\\ \hline
+\eta_1\\ \hline
 \vdots \\ \hline 
-\boldsymbol\eta_J
+\eta_K
 \end{array}\right)=\left(
 \begin{array}{c|c|c|c}
 \mathbf{A}_1 & \mathbf{0} & \cdots & \mathbf{0}\\ \hline
 \mathbf{0} & \mathbf{A}_2 & \cdots & \mathbf{0}\\ \hline 
+\vdots & \vdots & \ddots & \vdots \\ \hline
 \mathbf{0} & \mathbf{0} & \cdots & \mathbf{A}_J
 \end{array}\right) 
 \left(
@@ -231,7 +232,8 @@ $$</span>
 $$</span>
 <p>donde cada efecto 
 <span class="math align-center">$\mathbf{u}_j:j\in (1,...,J)$</span> está ligado a su correspondiente matriz de proyección 
-<span class="math align-center">$\mathbf{A}_j$</span>.</p>
+<span class="math align-center">$\mathbf{A}_j$</span>, conectando los efectos con el predictor lineal 
+<span class="math align-center">$\boldsymbol\eta=(\eta_1,...,\eta_K)$</span>.</p>
 <h2 id="artículos-fundamentales">Artículos Fundamentales</h2>
 <ol>
 <li>
@@ -306,7 +308,10 @@ $$</span>
         <ul class="topics collapsible-menu">
           <li data-nav-id="/es/inla/index.html" class="dd-item active parent"><input type="checkbox" id="section-3d8afea5515ebe07961312ecdef11d71" aria-controls="subsections-3d8afea5515ebe07961312ecdef11d71" class="toggle" checked><label class="a11y-only toggle" for="section-3d8afea5515ebe07961312ecdef11d71" >Submenú INLA</label><a href="../../es/inla/index.html"><b>1. </b>INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-3d8afea5515ebe07961312ecdef11d71">
           <li data-nav-id="/es/inla/basicoperationalinfo/index.html" class="dd-item"><input type="checkbox" id="section-d33a80c8ca404888025a920ae41964d5" aria-controls="subsections-d33a80c8ca404888025a920ae41964d5" class="toggle"><label class="a11y-only toggle" for="section-d33a80c8ca404888025a920ae41964d5" >Submenú Operaciones Básicas</label><a href="../../es/inla/basicoperationalinfo/index.html">Operaciones Básicas<i class="fas fa-check read-icon"></i></a><ul id="subsections-d33a80c8ca404888025a920ae41964d5">
-          <li data-nav-id="/es/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/linearmodels/index.html">Modelos Lineales Simples<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/stacks/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/stacks/index.html">Stacks<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/meshes/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/meshes/index.html">Conformación de Mallas<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/es/inla/basicoperationalinfo/advanced_features/index.html" class="dd-item"><a href="../../es/inla/basicoperationalinfo/advanced_features/index.html">Características Avanzadas<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/es/inla/extensions/index.html" class="dd-item"><input type="checkbox" id="section-88d39a17e227884620f6481637dd81cc" aria-controls="subsections-88d39a17e227884620f6481637dd81cc" class="toggle"><label class="a11y-only toggle" for="section-88d39a17e227884620f6481637dd81cc" >Submenú Extensiones de INLA</label><a href="../../es/inla/extensions/index.html">Extensiones de INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-88d39a17e227884620f6481637dd81cc">
           <li data-nav-id="/es/inla/extensions/dirinla/index.html" class="dd-item"><input type="checkbox" id="section-16d704edcc40db29f19556de248b7ece" aria-controls="subsections-16d704edcc40db29f19556de248b7ece" class="toggle"><label class="a11y-only toggle" for="section-16d704edcc40db29f19556de248b7ece" >Submenú dirinla</label><a href="../../es/inla/extensions/dirinla/index.html">dirinla<i class="fas fa-check read-icon"></i></a><ul id="subsections-16d704edcc40db29f19556de248b7ece">
           <li data-nav-id="/es/inla/extensions/dirinla/linear_effects/index.html" class="dd-item"><a href="../../es/inla/extensions/dirinla/linear_effects/index.html">Ejemplos con efectos fijos<i class="fas fa-check read-icon"></i></a></li>

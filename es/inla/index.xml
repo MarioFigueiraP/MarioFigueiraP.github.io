@@ -12,7 +12,10 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/index.html</guid>
       <description>En este apartado expondremos distintas funciones y operaciones básicas, que son fundamentales para la modelización con INLA.
-Modelos Lineales SimplesEjemplos simples de modelos lineales.</description>
+Modelos Lineales SimplesEjemplos simples de modelos lineales y evaluación de la salida de la función ``inla(...)``.
+StacksBreve introducción y ejemplificación de la organización de información en Stacks.
+Conformación de MallasBreve introducción a la conformación de mallas.
+Características AvanzadasIntroducción a características avanzadas de INLA y sus usos.</description>
     </item>
     <item>
       <title>Extensiones de INLA</title>

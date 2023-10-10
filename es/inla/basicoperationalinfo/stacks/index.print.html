@@ -4,10 +4,11 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
-    <meta name="description" content="Documentation for Bayesian Statistics">
+    <meta name="description" content="Breve introducción y ejemplificación de la organización de información en Stacks.">
     <meta name="author" content="Mario Figueira">
-    <title>Documentación</title>
+    <title>Stacks :: Documentación</title>
+    <link href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html" rel="canonical" type="text/html" title="Stacks :: Documentación">
+    <link href="../../../../es/inla/basicoperationalinfo/stacks/index.xml" rel="alternate" type="application/rss+xml" title="Stacks :: Documentación">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="../../../../css/fontawesome-all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../css/fontawesome-all.min.css" rel="stylesheet"></noscript>
     <link href="../../../../css/featherlight.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../css/featherlight.min.css" rel="stylesheet"></noscript>
@@ -55,7 +56,7 @@
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../es/inla/index.html"><span itemprop="name">INLA</span></a><meta itemprop="position" content="1"> > </li>
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../es/inla/basicoperationalinfo/index.html"><span itemprop="name">Operaciones Básicas</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Documentación</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Stacks</span><meta itemprop="position" content="3"></li>
             </ol>
           </div>
         </div>
@@ -65,9 +66,325 @@
           <div id="head-tags">
           </div>
           <article class="default">
-<h1 id=""></h1>
+<h1 id="stacks">Stacks</h1>
 
 
+<div class="box notices cstyle info">
+    <div class="box-label"><i class="fa-fw fas fa-info"></i> Información de versiones</div>
+    <div class="box-content">
+<p>En este rótulo inicial exponemos una lista con las versiones de los programas, sistema operativo y librearías con las que se ha ejecutado el código de la presente sección, lo cual se extrae principalmente mediante la función <code>sessionInfo()</code>.</p>
+<ul>
+<li>SO (version): Windows 11 Home (22H2).</li>
+<li>R: 4.2.3 (2023-03-15 ucrt).</li>
+<li>RStudio: 2023.06.2 (Build 561).</li>
+<li>Libraries:
+<ul>
+<li>INLA: INLA_23.04.24</li>
+</ul>
+</li>
+</ul>
+    </div>
+</div>
+<p>Los <code>stack</code> son unas funciones implementadas en el paquete <strong>R-INLA</strong> que permite organizar la información necesaria de una fórma verátil y cómoda para posteriormente ser integrada en la llamada a la función de ajuste <code>inla(...)</code>. La función empleada para ello es <code>inla.stack(...)</code>, la cual produce un objeto <code>inla.data.stack</code>.</p>
+<h2 id="1-estructura-de-un-stack">1. Estructura de un <em>stack</em></h2>
+<p>La función <code>inla.stack(...)</code> organiza la información de la variable respuesta (<em>data</em>), los efectos del modelo (<em>effects</em>) y la matriz de proyección (<em>A</em>), matriz 
+<span class="math align-center">$\mathbf{A}$</span> que liga el campo latente 
+<span class="math align-center">$\mathbf{\mathcal{X}}$</span> con el predictor lineal 
+<span class="math align-center">$\boldsymbol\eta$</span>. Por tanto, se dispondrá de un argumento asociado a cada uno de estos tres elementos, que será definido a través de una lista, junto con otros argumentos como <code>tag</code> que permite nombrar dicho <em>stack</em> y así, posteriormente, extraer índices o información según la etiqueta del <em>stack</em>.</p>
+<p>La estructura del código quedaría sintetizada en el siguiente bloque de código:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="kc">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="kc">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="kc">...</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span> <span class="o">=</span> <span class="s">&#34;stack_label&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span></code></pre></div><p>La función <code>inla.stack(...)</code> permite agrupar (<em>stakear</em>) otros objetos que sean ellos mismos también objetos de la clase <code>inla.data.stack</code>. Esto se debe a que la propia función <code>inla.stack(...)</code> es una función que llama a otras dos, <code>inla.stack.sum(...)</code> e <code>inla.stack.join(...)</code>, según se los argumentos introducidos sean los anteriormente expuestos o sean objetos <code>inla.data.stack</code>. En el primer caso se llamaría a la función <code>inla.stack.sum(...)</code>, mientras que en el segundo se llamaría a la función <code>inla.stack.join(...)</code>.</p>
+<p>Además, hay otros dos argumentos, ligados a la función <code>inla.stack.sum(...)</code> que pueden, ser de gran utilidad en determinados casos: <code>compress</code> y <code>remove.unused</code>. El primero eliminaría elementos duplicados en los efectos, y por tanto eliminaría las columnas asociadas a <em>A</em> relativas a dichos efectos, mientras que el segundo argumento eliminaría aquellos efectos que tienen valores nulos para toda la columna en <em>A</em> (eliminando también dichas columnas). Esto podremos observarlo en el pequeño ejemplo muy <em>naive</em> dedicado a un modelo espacial.</p>
+<p>En definitiva, la función permite automatizar la organización de los datos, por la generación <code>NAs</code> donde es necesario en el <code>data.frame</code> de los efectos y la integración de las matrices de proyección de los efectos y de distintos <em>stacks</em> cuando son agregados. Además, permite que la estructura general del código sea más legible al poder escindir partes del modelo en distintos <em>stacks</em> y así facilitar la escritura y lectura de código al apoyarnos en estas funciones.</p>
+<h2 id="2-ejemplos-de-uso-con-toy-models">2. Ejemplos de uso con <em>toy models</em></h2>
+<p>En este apartado expondremos unos breves ejemplos del uso de los <em>stacks</em> con unos modelos muy sencillos. Estos modelos emplean datos simulados y pueden ser demasiado simples, particularmente el segundo es un ejemplo algo artificial pero el objeto es tratar de exponer ejemplos variados para formar <em>stacks</em>. Los ejemplos son:</p>
+<ol>
+<li>Un modelo con dos efectos fijos.</li>
+<li>Un modelo con interceptor y un efecto aleatorio <em>iid</em>.</li>
+<li>Un modelo con interceptor y un efecto aleatorio espacialmente estructurado.</li>
+</ol>
+<h3 id="21-modelo-lineal-sin-efectos-aleatorios">2.1 Modelo lineal sin efectos aleatorios</h3>
+<p>En este ejemplo vamos a simular un modelo Gaussiano con un interceptor 
+<span class="math align-center">$(\beta_0)$</span> y un efecto fijo asociado a una variable explicativa numérica continua 
+<span class="math align-center">$(\beta_1, \mathbf{x}\in\mathbb{R})$</span>.</p>
+<p>El código necesario para la simulación es el siguiente</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_0</span> <span class="o">&lt;-</span> <span class="m">-2</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_1</span> <span class="o">&lt;-</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">lin_pred</span> <span class="o">&lt;-</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">lin_pred</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span></code></pre></div><p>Dados estos datos, podemos organizar la información en un <em>stack</em> según cualquiera de las siguientes alternativas:</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="Alt. 1"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','Alt. 1')"
+      ><span>Alt. 1</span></button>
+    <button
+      data-tab-item="Alt. 2"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 2')"
+      ><span>Alt. 2</span></button>
+    <button
+      data-tab-item="Alt. 3"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 3')"
+      ><span>Alt. 3</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="Alt. 1" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="m">1E2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_1</span><span class="o">=</span><span class="n">x</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 2" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="m">1E2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_1</span><span class="o">=</span><span class="n">x</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 3" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="nf">Diagonal</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">),</span> <span class="nf">Diagonal</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="m">1E2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">beta_1</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="m">1E2</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<p>Con independencia de cual de las alternativas escojamos para construir el <em>stack</em> podremos emplear el mismo código para llamar a la función <code>inla(...)</code> y ajustar el modelo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inla_model</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">inla</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">formula</span><span class="o">=</span><span class="n">y</span><span class="o">~</span><span class="m">-1</span><span class="o">+</span><span class="n">beta_0</span><span class="o">+</span><span class="n">beta_1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">family</span><span class="o">=</span><span class="s">&#34;gaussian&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nf">inla.stack.data</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">control.predictor</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="nf">inla.stack.A</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span></code></pre></div><p>En la función <code>inla(...)</code> el argumento <code>data</code> es relativo a los datos de los modelos, debiendo hacer coincidir los nombres de los elementos entre la fórmula y los almacenados en el <em>stack</em>, los datos se extraen (como una lista) mediante la función <code>inla.stack.data</code>. Por otro lado, <code>control.predictor</code> es un argumento que nos permite definir una lista de argumentos relativos a opciones de configuración del predictor, particulamente hacemos uso del argumento <code>A</code>, que define la matriz de proyección y que podemos extraer del <em>stack</em> mediante la función <code>inla.stack.A</code>.</p>
+<h3 id="22-modelo-lineal-con-efecto-aleatorio-iid">2.2 Modelo lineal con efecto aleatorio <em>iid</em></h3>
+<p>En este caso simularemos un modelo con un interceptor y con un efecto aleatorio <em>iid</em>. Para ello nos valemos del siguiente código:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">beta_0</span> <span class="o">&lt;-</span> <span class="m">-2</span>
+</span></span><span class="line"><span class="cl"><span class="n">w</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lin_pred</span> <span class="o">&lt;-</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="nf">c</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">50</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">lin_pred</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span>
+</span></span></code></pre></div><p>En este caso estaríamos definiendo el predictor lineal como 
+<span class="math align-center">$\boldsymbol\eta\equiv \left\lbrace \eta_{1:50}=\beta_0 + w_{1:50},\; \eta_{51:100}=\beta_0 \right\rbrace $</span>, tal que 
+<span class="math align-center">$ \mathbf{w} \sim N(0, \tau=0.04)$</span>. La definición del <em>stack</em> ahora será un poco distinta, dado que debemos definir el interceptor para todo el predictor lineal y separar los dos efectos <em>iid</em> según la posición asociada al predictor. Algunas alternativas posibles de escribir correctamente los datos en un <em>stack</em> son las siguientes:</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="Alt. 1"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','Alt. 1')"
+      ><span>Alt. 1</span></button>
+    <button
+      data-tab-item="Alt. 2"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 2')"
+      ><span>Alt. 2</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="Alt. 1" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">100</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">w</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">50</span><span class="p">,</span><span class="nf">rep</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">50</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span><span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 2" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="m">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">Diagonal</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">100</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">50</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">50</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="m">100</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">w</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">100</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span><span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<p>Finalmente, la llamada a la función de ajuste es idéntica al anterior caso, con la excepción de que el argumento de la fórmula debemos cambiarlo para el nuevo modelo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inla_model</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla</span><span class="p">(</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">formula</span><span class="o">=</span><span class="n">y</span><span class="o">~</span><span class="m">-1</span> <span class="o">+</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#34;iid&#34;</span><span class="p">,</span> <span class="n">constr</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">family</span><span class="o">=</span><span class="s">&#34;gaussian&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nf">inla.stack.data</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">control.predictor</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="nf">inla.stack.A</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div><h3 id="23-modelo-lineal-con-efectos-aleatorios-espacialmente-estructurados">2.3 Modelo lineal con efectos aleatorios espacialmente estructurados</h3>
+<p>En este último ejemplo simularemos datos con estructura espacial, en el que aprovecharemos para mostrar las diferencias de dejar algunos argumentos de forma predeterminada en la función <code>inla.stack(...)</code>.</p>
+<p>La simulación de datos con dependencia espacial podemos hacerlo mediante el siguiente código, en el que se configura una malla, y los objetos necesarios del SPDE para simular un campo Gaussiano con función de covarianzas tipo Matèrn.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mesh</span> <span class="o">&lt;-</span> <span class="nf">inla.mesh.2d</span><span class="p">(</span><span class="n">loc.domain</span> <span class="o">=</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                         <span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">byrow</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                     <span class="n">max.edge</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0.05</span><span class="p">,</span><span class="m">0.1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">spde</span> <span class="o">&lt;-</span> <span class="nf">inla.spde2.pcmatern</span><span class="p">(</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">alpha</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">prior.range</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="m">0.5</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                            <span class="n">prior.sigma</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Q</span> <span class="o">&lt;-</span> <span class="nf">inla.spde2.precision</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spde</span><span class="o">=</span><span class="n">spde</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">theta</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="m">0.2</span><span class="p">),</span><span class="nf">log</span><span class="p">(</span><span class="m">1</span><span class="p">))</span> <span class="c1"># log(range), log(stdev.)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">u</span> <span class="o">&lt;-</span> <span class="nf">inla.qsample</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sample.locations</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">runif</span><span class="p">(</span><span class="m">5E2</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">A_u</span> <span class="o">&lt;-</span> <span class="nf">inla.spde.make.A</span><span class="p">(</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="n">sample.locations</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">beta_0</span> <span class="o">&lt;-</span> <span class="m">-2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lin_pred</span> <span class="o">&lt;-</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="nf">as.vector</span><span class="p">(</span><span class="n">A_u</span> <span class="o">%*%</span> <span class="n">u</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">lin_pred</span><span class="p">),</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">lin_pred</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="m">0.25</span><span class="p">)</span>
+</span></span></code></pre></div><p>Las localizaciones de simulación son <code>sample.locations</code>, tal que el efecto espacial se simula en los nodos de la malla a dichas localizaciones a través de la matriz de proyección <code>A_u</code>, matriz que también será integrada en el <em>stack</em> para la matriz de proyección del efecto espacial.</p>
+<p>El <em>stack</em> para el modelo espacial podemos contruirlo según el siguiente código:</p>
+
+<div class="tab-panel">
+  <div class="tab-nav">
+    <button
+      data-tab-item="Alt. 1"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr active"
+      onclick="switchTab('default','Alt. 1')"
+      ><span>Alt. 1</span></button>
+    <button
+      data-tab-item="Alt. 2"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 2')"
+      ><span>Alt. 2</span></button>
+    <button
+      data-tab-item="Alt. 3"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 3')"
+      ><span>Alt. 3</span></button>
+    <button
+      data-tab-item="Alt. 4"
+      data-tab-group="default"
+      class="tab-nav-button direction-ltr "
+      onclick="switchTab('default','Alt. 4')"
+      ><span>Alt. 4</span></button>
+  </div>
+  <div class="tab-content">
+    <div data-tab-item="Alt. 1" data-tab-group="default" class="tab-item active">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">A_u</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">spatial</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="n">spde</span><span class="o">$</span><span class="n">n.spde</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 2" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">A_u</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">spatial</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="n">spde</span><span class="o">$</span><span class="n">n.spde</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 3" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">A_u</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">spatial</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="n">spde</span><span class="o">$</span><span class="n">n.spde</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compress</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">remove.unused</span> <span class="o">=</span> <span class="kc">FALSE</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+    <div data-tab-item="Alt. 4" data-tab-group="default" class="tab-item ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">A_u</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">spatial</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="n">spde</span><span class="o">$</span><span class="n">n.spde</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compress</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">remove.unused</span> <span class="o">=</span> <span class="kc">FALSE</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div>
+    </div>
+  </div>
+</div>
+<p>En las alternativas 1 y 2 simplemente tenemos dos formas distintas de formar el <em>stack</em>, mientras que las alternativas 3 y 4 son respectivamente la 1 y 2, pero eliminando la compresión o simplificación de la matriz de proyección y de los efectos. Si comparamos la matriz de proyección almacenada en el objeto <code>inf_stack</code>, entre las alternativas 1-2 y 3-4 podremos observar que las dimensiones para las dos primeras es inferior a las de las dos últimas, dado que se eliminarían los índices del efecto espacial asociados a las columnas de la matriz de proyección cuyas columnas sólo contengan valores nulos (debido al argumento predeterminado <code>remove.unused = TRUE</code>), junto con la eliminación de estas columnas de valores cero.</p>
+<p>Finalmente para ajustar el modelo el código necesario es básicamente el ya empleado, pero cambiando la expresión de la fórmula para el modelo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inla_model</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">inla</span><span class="p">(</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">formula</span><span class="o">=</span><span class="n">y</span><span class="o">~</span><span class="m">-1</span> <span class="o">+</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="n">spatial</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">spde</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">family</span><span class="o">=</span><span class="s">&#34;gaussian&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nf">inla.stack.data</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">control.predictor</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="nf">inla.stack.A</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span></code></pre></div>
             <footer class="footline">
             </footer>
           </article>
@@ -77,6 +394,35 @@
     <script src="../../../../js/clipboard.min.js" defer></script>
     <script src="../../../../js/perfect-scrollbar.min.js" defer></script>
     <script src="../../../../js/featherlight.min.js" defer></script>
+    <script>
+      function useMathJax( config ){
+        if( !Object.assign ){
+          
+          return;
+        }
+        window.MathJax = Object.assign( window.MathJax || {}, {
+          loader: {
+            load: ['[tex]/mhchem']
+          },
+          startup: {
+            elements: [
+              '.math'
+            ]
+          },
+          tex: {
+            inlineMath: [
+              ['$', '$'], 
+              ['\\(', '\\)']
+            ]
+          },
+          options: {
+            enableMenu: false 
+          }
+        }, config );
+      }
+      useMathJax( JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="../../../../js/mathjax/tex-mml-chtml.js"></script>
     <script src="../../../../js/jquery.svg.pan.zoom.js" defer></script>
     <script src="../../../../js/mermaid.min.js" defer></script>
     <script>

@@ -40,6 +40,19 @@
                 />
   </url>
   <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -76,6 +89,45 @@
                 rel="alternate"
                 hreflang="es"
                 href="https://MarioFigueiraP.github.io/es/inlabru/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/stacks/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/meshes/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/advanced_features/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/advanced_features/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/advanced_features/index.html"
                 />
   </url>
   <url>
@@ -206,19 +258,6 @@
                 rel="alternate"
                 hreflang="es"
                 href="https://MarioFigueiraP.github.io/es/inla/spatialmodels/index.html"
-                />
-  </url>
-  <url>
-    <loc>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="es"
-                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html"
                 />
   </url>
   <url>

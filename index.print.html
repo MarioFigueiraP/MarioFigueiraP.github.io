@@ -205,13 +205,14 @@ $$</span>
 <span class="math align-center">$$
 \boldsymbol\eta=\left(
 \begin{array}{c}
-\boldsymbol\eta_1\\ \hline
+\eta_1\\ \hline
 \vdots \\ \hline 
-\boldsymbol\eta_J
+\eta_K
 \end{array}\right)=\left(
 \begin{array}{c|c|c|c}
 \mathbf{A}_1 & \mathbf{0} & \cdots & \mathbf{0}\\ \hline
 \mathbf{0} & \mathbf{A}_2 & \cdots & \mathbf{0}\\ \hline 
+\vdots & \vdots & \ddots & \vdots \\ \hline
 \mathbf{0} & \mathbf{0} & \cdots & \mathbf{A}_J
 \end{array}\right) 
 \left(
@@ -223,8 +224,9 @@ $$</span>
 \end{array}\right),
 $$</span>
 <p>where each effect 
-<span class="math align-center">$\mathbf{u}_j:j\in (1,...,J)$</span> is linked to its corresponding projection matrix 
-<span class="math align-center">$\mathbf{A}_j$</span>.</p>
+<span class="math align-center">$\mathbf{u}_j:j\in (1,...,J)$</span> is related to its corresponding projection matrix 
+<span class="math align-center">$\mathbf{A}_j$</span>, linking the effects with the linear predictor 
+<span class="math align-center">$\boldsymbol\eta=(\eta_1,...,\eta_K)$</span>.</p>
 <h2 id="key-articles">Key Articles</h2>
 <ol>
 <li>
@@ -273,13 +275,14 @@ $$</span>
           <article class="default">
 <h1 id="basic-operations">Basic Operations</h1>
 
-<p>In this part we will show different basic functions and operations, which are the basis to modelling with INLA.</p>
+<p>In this part we will show different basic functions and operations, which are the basis to modeling with INLA.</p>
 
 <ul class="children children-li children-sort-weight">
 	
 <li><a href="./inla/basicoperationalinfo/linearmodels/index.html">Basic Linear Models</a><p>Simple examples of linear models.</p></li>
-<li><a href="./inla/basicoperationalinfo/meshes/index.html">Mesh Construction</a><p>Brief introduction to the construction of meshes: applications and  operational basis.</p></li>
 <li><a href="./inla/basicoperationalinfo/stacks/index.html">Stacks</a><p>A short introduction to inla stacks and their uses.</p></li>
+<li><a href="./inla/basicoperationalinfo/meshes/index.html">Mesh Construction</a><p>Brief introduction to the construction of meshes: applications and  operational basis.</p></li>
+<li><a href="./inla/basicoperationalinfo/advanced_features/index.html">Advanced Features</a><p>A short introduction to INLA advanced features and their uses.</p></li>
 </ul>
 
             <footer class="footline">
@@ -298,18 +301,24 @@ $$</span>
           </article>
 
           <article class="default">
-<h1 id="mesh-construction">Mesh Construction</h1>
+<h1 id="stacks">Stacks</h1>
 
-<p>In this section we will show</p>
 
             <footer class="footline">
             </footer>
           </article>
 
           <article class="default">
-<h1 id="stacks">Stacks</h1>
+<h1 id="mesh-construction">Mesh Construction</h1>
 
-<p>In this section we will show</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+          <article class="default">
+<h1 id="advanced-features">Advanced Features</h1>
+
 
             <footer class="footline">
             </footer>

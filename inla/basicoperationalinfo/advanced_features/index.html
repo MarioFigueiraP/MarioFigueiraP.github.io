@@ -4,11 +4,11 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="description" content="A joint model for preferentially sampled data.">
+    <meta name="description" content="A short introduction to INLA advanced features and their uses.">
     <meta name="author" content="Mario Figueira">
-    <title>Preferential Model :: Documentation</title>
-    <link href="../../../inla/spatialmodels/jointmodel_preferential/index.xml" rel="alternate" type="application/rss+xml" title="Preferential Model :: Documentation">
-    <link href="../../../inla/spatialmodels/jointmodel_preferential/index.print.html" rel="alternate" type="text/html" title="Preferential Model :: Documentation">
+    <title>Advanced Features :: Documentation</title>
+    <link href="../../../inla/basicoperationalinfo/advanced_features/index.xml" rel="alternate" type="application/rss+xml" title="Advanced Features :: Documentation">
+    <link href="../../../inla/basicoperationalinfo/advanced_features/index.print.html" rel="alternate" type="text/html" title="Advanced Features :: Documentation">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
     <link href="../../../css/fontawesome-all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../css/fontawesome-all.min.css" rel="stylesheet"></noscript>
     <link href="../../../css/featherlight.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../css/featherlight.min.css" rel="stylesheet"></noscript>
@@ -42,20 +42,20 @@
     </script>
     <script src="../../../js/jquery.min.js" defer></script>
   </head>
-  <body class="mobile-support html" data-url="../../../inla/spatialmodels/jointmodel_preferential/index.html">
+  <body class="mobile-support html" data-url="../../../inla/basicoperationalinfo/advanced_features/index.html">
     <div id="body" class="default-animation">
       <div id="sidebar-overlay"></div>
       <div id="toc-overlay"></div>
       <nav id="topbar" class="highlightable" dir="ltr">
         <div>
           <div class="navigation">
-            <a class="nav nav-next" href="../../../inla/spatialmodels/spatialvaryingcoefficientmodel/index.html" title="SVC Model (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+            <a class="nav nav-next" href="../../../inla/extensions/index.html" title="INLA&#39;s extensions (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
-            <a class="nav nav-prev" href="../../../inla/spatialmodels/geostatisticalmodel/index.html" title="Geostatistical Model (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+            <a class="nav nav-prev" href="../../../inla/basicoperationalinfo/meshes/index.html" title="Mesh Construction (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="top-print-link">
-            <a class="print-link" title='Print whole chapter (CTRL+ALT+p)' href="../../../inla/spatialmodels/jointmodel_preferential/index.print.html">
+            <a class="print-link" title='Print whole chapter (CTRL+ALT+p)' href="../../../inla/basicoperationalinfo/advanced_features/index.print.html">
               <i class="fas fa-print fa-fw"></i>
             </a>
           </div>
@@ -65,8 +65,8 @@
             </span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../inla/index.html"><span itemprop="name">INLA</span></a><meta itemprop="position" content="1"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../inla/spatialmodels/index.html"><span itemprop="name">Spatial Models (SPDE-FEM)</span></a><meta itemprop="position" content="2"> > </li>
-              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Preferential Model</span><meta itemprop="position" content="3"></li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../inla/basicoperationalinfo/index.html"><span itemprop="name">Basic Operations</span></a><meta itemprop="position" content="2"> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Advanced Features</span><meta itemprop="position" content="3"></li>
             </ol>
           </div>
         </div>
@@ -76,9 +76,8 @@
           <div id="head-tags">
           </div>
           <article class="default">
-<h1 id="preferential-model">Preferential Model</h1>
+<h1 id="advanced-features">Advanced Features</h1>
 
-<p>In this section we will show</p>
 
             <footer class="footline">
             </footer>
@@ -113,19 +112,19 @@
       <div id="content-wrapper" class="highlightable">
         <ul class="topics collapsible-menu">
           <li data-nav-id="/inla/index.html" class="dd-item parent"><input type="checkbox" id="section-98163e637131cd3bbb51a73a3fb5b277" aria-controls="subsections-98163e637131cd3bbb51a73a3fb5b277" class="toggle" checked><label class="a11y-only toggle" for="section-98163e637131cd3bbb51a73a3fb5b277" >Submenu INLA</label><a href="../../../inla/index.html"><b>1. </b>INLA<i class="fas fa-check read-icon"></i></a><ul id="subsections-98163e637131cd3bbb51a73a3fb5b277">
-          <li data-nav-id="/inla/basicoperationalinfo/index.html" class="dd-item"><input type="checkbox" id="section-d3e7d0cb7242c3aca0785bd47be27aee" aria-controls="subsections-d3e7d0cb7242c3aca0785bd47be27aee" class="toggle"><label class="a11y-only toggle" for="section-d3e7d0cb7242c3aca0785bd47be27aee" >Submenu Basic Operations</label><a href="../../../inla/basicoperationalinfo/index.html">Basic Operations<i class="fas fa-check read-icon"></i></a><ul id="subsections-d3e7d0cb7242c3aca0785bd47be27aee">
+          <li data-nav-id="/inla/basicoperationalinfo/index.html" class="dd-item parent"><input type="checkbox" id="section-d3e7d0cb7242c3aca0785bd47be27aee" aria-controls="subsections-d3e7d0cb7242c3aca0785bd47be27aee" class="toggle" checked><label class="a11y-only toggle" for="section-d3e7d0cb7242c3aca0785bd47be27aee" >Submenu Basic Operations</label><a href="../../../inla/basicoperationalinfo/index.html">Basic Operations<i class="fas fa-check read-icon"></i></a><ul id="subsections-d3e7d0cb7242c3aca0785bd47be27aee">
           <li data-nav-id="/inla/basicoperationalinfo/linearmodels/index.html" class="dd-item"><a href="../../../inla/basicoperationalinfo/linearmodels/index.html">Basic Linear Models<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/inla/basicoperationalinfo/stacks/index.html" class="dd-item"><a href="../../../inla/basicoperationalinfo/stacks/index.html">Stacks<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/inla/basicoperationalinfo/meshes/index.html" class="dd-item"><a href="../../../inla/basicoperationalinfo/meshes/index.html">Mesh Construction<i class="fas fa-check read-icon"></i></a></li>
-          <li data-nav-id="/inla/basicoperationalinfo/advanced_features/index.html" class="dd-item"><a href="../../../inla/basicoperationalinfo/advanced_features/index.html">Advanced Features<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/inla/basicoperationalinfo/advanced_features/index.html" class="dd-item active"><a href="../../../inla/basicoperationalinfo/advanced_features/index.html">Advanced Features<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/inla/extensions/index.html" class="dd-item"><input type="checkbox" id="section-e38198d2028232faef659f1c109dfbe3" aria-controls="subsections-e38198d2028232faef659f1c109dfbe3" class="toggle"><label class="a11y-only toggle" for="section-e38198d2028232faef659f1c109dfbe3" >Submenu INLA&#39;s extensions</label><a href="../../../inla/extensions/index.html">INLA&#39;s extensions<i class="fas fa-check read-icon"></i></a><ul id="subsections-e38198d2028232faef659f1c109dfbe3">
           <li data-nav-id="/inla/extensions/dirinla/index.html" class="dd-item"><input type="checkbox" id="section-0949d0867ee36334ea648e8aa7185b22" aria-controls="subsections-0949d0867ee36334ea648e8aa7185b22" class="toggle"><label class="a11y-only toggle" for="section-0949d0867ee36334ea648e8aa7185b22" >Submenu dirinla</label><a href="../../../inla/extensions/dirinla/index.html">dirinla<i class="fas fa-check read-icon"></i></a><ul id="subsections-0949d0867ee36334ea648e8aa7185b22">
           <li data-nav-id="/inla/extensions/dirinla/linear_effects/index.html" class="dd-item"><a href="../../../inla/extensions/dirinla/linear_effects/index.html">Example with fixed effects<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/inla/extensions/dirinla/unstructure_random_effects/index.html" class="dd-item"><a href="../../../inla/extensions/dirinla/unstructure_random_effects/index.html">Example with iid (unstructured diagonal) effects<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/inla/extensions/dirinla/spde2_random_effects/index.html" class="dd-item"><a href="../../../inla/extensions/dirinla/spde2_random_effects/index.html">Example with spatial structured random effects<i class="fas fa-check read-icon"></i></a></li></ul></li></ul></li>
-          <li data-nav-id="/inla/spatialmodels/index.html" class="dd-item parent"><input type="checkbox" id="section-269d7fa127035cc7956f8243f1288ee4" aria-controls="subsections-269d7fa127035cc7956f8243f1288ee4" class="toggle" checked><label class="a11y-only toggle" for="section-269d7fa127035cc7956f8243f1288ee4" >Submenu Spatial Models (SPDE-FEM)</label><a href="../../../inla/spatialmodels/index.html">Spatial Models (SPDE-FEM)<i class="fas fa-check read-icon"></i></a><ul id="subsections-269d7fa127035cc7956f8243f1288ee4">
+          <li data-nav-id="/inla/spatialmodels/index.html" class="dd-item"><input type="checkbox" id="section-269d7fa127035cc7956f8243f1288ee4" aria-controls="subsections-269d7fa127035cc7956f8243f1288ee4" class="toggle"><label class="a11y-only toggle" for="section-269d7fa127035cc7956f8243f1288ee4" >Submenu Spatial Models (SPDE-FEM)</label><a href="../../../inla/spatialmodels/index.html">Spatial Models (SPDE-FEM)<i class="fas fa-check read-icon"></i></a><ul id="subsections-269d7fa127035cc7956f8243f1288ee4">
           <li data-nav-id="/inla/spatialmodels/geostatisticalmodel/index.html" class="dd-item"><a href="../../../inla/spatialmodels/geostatisticalmodel/index.html">Geostatistical Model<i class="fas fa-check read-icon"></i></a></li>
-          <li data-nav-id="/inla/spatialmodels/jointmodel_preferential/index.html" class="dd-item active"><a href="../../../inla/spatialmodels/jointmodel_preferential/index.html">Preferential Model<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/inla/spatialmodels/jointmodel_preferential/index.html" class="dd-item"><a href="../../../inla/spatialmodels/jointmodel_preferential/index.html">Preferential Model<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/inla/spatialmodels/spatialvaryingcoefficientmodel/index.html" class="dd-item"><a href="../../../inla/spatialmodels/spatialvaryingcoefficientmodel/index.html">SVC Model<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/inla/variousfunctions/index.html" class="dd-item"><input type="checkbox" id="section-d8419cc4cb8dd310e9c1565d3acac5de" aria-controls="subsections-d8419cc4cb8dd310e9c1565d3acac5de" class="toggle"><label class="a11y-only toggle" for="section-d8419cc4cb8dd310e9c1565d3acac5de" >Submenu Various Functions</label><a href="../../../inla/variousfunctions/index.html">Various Functions<i class="fas fa-check read-icon"></i></a><ul id="subsections-d8419cc4cb8dd310e9c1565d3acac5de">
           <li data-nav-id="/inla/variousfunctions/inlatosp/index.html" class="dd-item"><a href="../../../inla/variousfunctions/inlatosp/index.html">Transformation to sp/sf<i class="fas fa-check read-icon"></i></a></li></ul></li></ul></li>
@@ -149,8 +148,8 @@
                 <div class="select-style">
                   <label class="a11y-only" for="select-language">Language</label>
                   <select id="select-language" onchange="location = baseUri + this.value;">
-                    <option lang="en" id="en" value="/inla/spatialmodels/jointmodel_preferential/index.html" selected>English</option>
-                    <option lang="es" id="es" value="/es/inla/spatialmodels/jointmodel_preferential/index.html">Español</option>
+                    <option lang="en" id="en" value="/inla/basicoperationalinfo/advanced_features/index.html" selected>English</option>
+                    <option lang="es" id="es" value="/es/inla/basicoperationalinfo/advanced_features/index.html">Español</option>
                   </select>
                 </div>
                 <div class="select-clear"></div>

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -79,6 +92,19 @@
                 />
   </url>
   <url>
+    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/stacks/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/stacks/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/inla/extensions/dirinla/spde2_random_effects/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -92,6 +118,32 @@
                 />
   </url>
   <url>
+    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/meshes/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/meshes/index.html"
+                />
+  </url>
+  <url>
+    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/advanced_features/index.html</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/advanced_features/index.html"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/advanced_features/index.html"
+                />
+  </url>
+  <url>
     <loc>https://MarioFigueiraP.github.io/inla/variousfunctions/inlatosp/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -102,19 +154,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://MarioFigueiraP.github.io/inla/variousfunctions/inlatosp/index.html"
-                />
-  </url>
-  <url>
-    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="es"
-                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/linearmodels/index.html"
                 />
   </url>
   <url>
@@ -170,19 +209,6 @@
                 />
   </url>
   <url>
-    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/meshes/index.html</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="es"
-                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/meshes/index.html"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/meshes/index.html"
-                />
-  </url>
-  <url>
     <loc>https://MarioFigueiraP.github.io/inla/spatialmodels/jointmodel_preferential/index.html</loc>
     <xhtml:link
                 rel="alternate"
@@ -206,19 +232,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://MarioFigueiraP.github.io/inla/spatialmodels/index.html"
-                />
-  </url>
-  <url>
-    <loc>https://MarioFigueiraP.github.io/inla/basicoperationalinfo/stacks/index.html</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="es"
-                href="https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/stacks/index.html"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://MarioFigueiraP.github.io/inla/basicoperationalinfo/stacks/index.html"
                 />
   </url>
   <url>
