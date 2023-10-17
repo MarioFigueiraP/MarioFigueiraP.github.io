@@ -68,7 +68,194 @@
           <article class="default">
 <h1 id="modelos-lineales-simples">Modelos Lineales Simples</h1>
 
-<p>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así exponer cómo operar con <strong>R-INLA</strong>. A lo largo de los ejemplos se comentará el código empleado y se tratará de explicar el funcionamiento de las funciones empleadas relativas al paquete <strong>R-INLA</strong>.</p>
+
+<div class="box notices cstyle info">
+    <div class="box-label"><i class="fa-fw fas fa-info"></i> Información de versiones</div>
+    <div class="box-content">
+<p>En este rótulo inicial exponemos una lista con las versiones de los programas, sistema operativo y librearías con las que se ha ejecutado el código de la presente sección, lo cual se extrae principalmente mediante la función <code>sessionInfo()</code>.</p>
+<ul>
+<li>SO (version): Windows 11 Home (22H2).</li>
+<li>R: 4.2.3 (2023-03-15 ucrt).</li>
+<li>RStudio: 2023.06.2 (Build 561).</li>
+<li>Libraries:
+<ul>
+<li>INLA: INLA_23.04.24</li>
+</ul>
+</li>
+</ul>
+    </div>
+</div>
+<p>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así mostrar cómo operar con <strong>R-INLA</strong>. A lo largo de los ejemplos se comentará el código empleado y se tratará de explicar el funcionamiento de las funciones empleadas relativas al paquete <strong>R-INLA</strong>, junto con las salidas de la función de ajuste <code>inla(...)</code>.</p>
+<p>Los ejemplos sobre los que trabajaremos son los siguientes:</p>
+<ol>
+<li>Modelo Gaussiano con interceptor y efecto lineal.</li>
+<li>Modelo Gaussiano con factores.</li>
+<li>Modelo Gaussiano con efectos aleatorios.
+<ol>
+<li>Efectos aleatorios no-estructurados (<em>iid</em>)</li>
+<li>Efectos aleatorios estructurados en una dimensión (<em>rw</em>, <em>ar</em> y <em>spde</em>)</li>
+<li>Efectos aleatorios estructurados en dos dimensiones (<em>besag</em> y <em>spde</em>)</li>
+</ol>
+</li>
+</ol>
+<h2 id="1-modelo-gaussiano-con-un-interceptor-y-un-efecto-lineal">1. Modelo Gaussiano con un interceptor y un efecto lineal</h2>
+<p>Un ejemplo de modelo Gaussiano sencillo puede ser aquel cuyo predictor lineal esté determinado por un interceptor y un efecto fijo asociado a una variable continua. Es decir, el modelo formalmente es expresable como</p>
+
+<span class="math align-center">
+$$\begin{array}{c}
+y_i\sim N(\mu_i,\tau),\\
+\mu_i = \eta_i = \beta_0 + \beta_1\cdot x_i,
+\end{array}$$
+</span>
+<p>donde 
+<span class="math align-center">$y_i$</span> son las realizaciones de la variable aleatoria respuesta 
+<span class="math align-center">$Y:Y\sim N(\boldsymbol\mu,\tau)$</span>, 
+<span class="math align-center">$\beta_0$</span> es el interceptor, 
+<span class="math align-center">$\beta_1$</span> es el parámetro realativo al efecto de la variable explicativa 
+<span class="math align-center">$\mathbf{x}$</span>, y 
+<span class="math align-center">$x_i$</span> son los valores de la variable explicativa. El código que podríamos utilizar para simular este modelo es el presentado en el siguiente bloque de código.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_0</span> <span class="o">&lt;-</span> <span class="m">-2</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_1</span> <span class="o">&lt;-</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">lin_pred</span> <span class="o">&lt;-</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">lin_pred</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span></code></pre></div><p>Antes de organizar la información de los datos podemos especificar la fórmula del modelo,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">formula_inla</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">~</span> <span class="m">-1</span> <span class="o">+</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span>
+</span></span></code></pre></div><p>donde <code>y</code> es el nombre de la variable respuesta, el término <code>-1</code> elimina el interceptor que se construye por defecto, mientras que <code>beta_0</code> y <code>beta_1</code> son dos parámetros o variables fijas, a las que en el <code>data.frame</code> o la matriz de proyección <code>A</code> se pasarán los pesos asociados a los mismos. En el caso de un interceptor estos pesos sería un vector de unos, mientras que los pesos de los parámetros relativos a las variables explicativas tendrán por pesos los valores de dichas variables.</p>
+<p>En la propia fórmula podemos indicar la distribución previa de los parámetros, en concreto para el caso de los efectos lineales lo haríamos como</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">formula_inla</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">~</span> <span class="m">-1</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">f</span><span class="p">(</span><span class="n">beta_0</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#34;linear&#34;</span><span class="p">,</span> <span class="n">mean.linear</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">prec.linear</span><span class="o">=</span><span class="m">0.001</span><span class="p">)</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">f</span><span class="p">(</span><span class="n">beta_1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#34;linear&#34;</span><span class="p">,</span> <span class="n">mean.linear</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">prec.linear</span><span class="o">=</span><span class="m">0.001</span><span class="p">)</span>
+</span></span></code></pre></div><p>La información podemos prepararla mediante la función <code>inla.stack(...)</code> para pasarla a la función de ajuste <code>inla(...)</code>, (véase la <a href="https://mariofigueirap.github.io/es/inla/basicoperationalinfo/stacks/index.html">sección dedicada a los <em>stacks</em></a> para más información).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inf_stack</span> <span class="o">&lt;-</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">inla.stack</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">effects</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">list</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">beta_0</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">beta_1</span><span class="o">=</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl">            <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span></code></pre></div><p>El ajuste del modelo lo realizamos mediante <code>inla(...)</code>, donde indicamos la fórmula, la distribución de la verosimilitud, los datos necesarios para el modelo (que podemos extraer del <em>stack</em> mediante <code>inla.stack.data(...)</code>), y otros elementos de configuración que podemos especificar.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">inla_model</span> <span class="o">&lt;-</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">inla</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">formula</span><span class="o">=</span><span class="n">formula_inla</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nf">inla.stack.data</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span> <span class="n">family</span><span class="o">=</span><span class="s">&#34;gaussian&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">control.predictor</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="nf">inla.stack.A</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span> <span class="n">compute</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">control.compute</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">waic</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> <span class="n">cpo</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> <span class="n">dic</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">verbose</span><span class="o">=</span><span class="kc">TRUE</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span></code></pre></div><p>En la función <code>inla(...)</code> hemos especificado la fórmula, la distribución de los datos, la matriz de proyección, y además con <code>control.predictor(compute=TRUE)</code> indicamos que se calculen las distribuciones marginales del predictor lineal (para almacenarlas se necesitaría especificar con un argumento extra <code>return.marginals.predictor=TRUE</code>). Con <code>control.compute(waic=TRUE, cpo=TRUE, dic=TRUE, config=TRUE)</code> indicamos que se calcule el WAIC, CPO, DIC, y que la aproximación GMRF interna se almacene.</p>
+<p>La salida de la función, guardada en el objeto <code>inla_model</code> según el código empleado, tendremos ciertos sumarios (<em>summaries</em>) de información sobre el ajuste:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Argumento</th>
+<th style="text-align:left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">summary.fixed</td>
+<td style="text-align:left">Resumen de información de las distribuciones posteriores de los efectos fijos.</td>
+</tr>
+<tr>
+<td style="text-align:center">summary.hyperpar</td>
+<td style="text-align:left">Resumen de las distribuciones posteriores de los hiper-parámetros (parámetros asociados a la estructura de los efectos aleatorios y de los hiperparámetros de la verosimilitud).</td>
+</tr>
+<tr>
+<td style="text-align:center">summary.random</td>
+<td style="text-align:left">Resumen de las distribuciones posteriores para cada uno de los elementos (nodos) de los efectos aleatorios.</td>
+</tr>
+<tr>
+<td style="text-align:center">summary.linear.predictor</td>
+<td style="text-align:left">Resumen de las distribuciones posteriores del predictor lineal y el campo latente. Esto se divide en dos partes, una nombrada bajo la siguiente estructura: <code>fitted.APredictor.n</code>, donde <code>n</code> es un valor numérico relativo a la posición asociada a la observación <code>y_n</code>, y <code>fitted.Predictor.m</code>, donde <code>m</code> es un valor numérico relativo a la posición asociada al elemento <code>x_m</code> del campo Gaussiano latente. Es decir, la primera es tras aplicar la matriz de proyección <code>A</code> sobre las observaciones, mientras que la segunda es la relativa al campo latente en sentido estricto. Esto puede volverse algo más complejo al emplear múltiples <em>stacks</em> y múltiples verosimilitudes.</td>
+</tr>
+</tbody>
+</table>
+<p>Otros elementos muy útiles de la salida del modelo son las distribuciones marginales, tanto de los parámetros e hiperparámetros, así como de los efectos aleatorios y el predictor lineal.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Argumento</th>
+<th style="text-align:left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">marginals.fixed</td>
+<td style="text-align:left">Distribuciones posteriores de los efectos fijos.</td>
+</tr>
+<tr>
+<td style="text-align:center">marginals.hyperpar</td>
+<td style="text-align:left">Distribuciones posteriores de los hiper-parámetros (parámetros asociados a la estructura de los efectos aleatorios y de los hiperparámetros de la verosimilitud).</td>
+</tr>
+<tr>
+<td style="text-align:center">marginals.random</td>
+<td style="text-align:left">Distribuciones posteriores para cada uno de los elementos (nodos) de los efectos aleatorios.</td>
+</tr>
+<tr>
+<td style="text-align:center">marginals.linear.predictor</td>
+<td style="text-align:left">Distribuciones posteriores del predictor lineal y el campo latente. Esto se divide en dos partes, una nombrada bajo la siguiente estructura: <code>fitted.APredictor.n</code> y <code>fitted.Predictor.m</code>, al igual que habíamos explicado para el resumen de las mismas.</td>
+</tr>
+</tbody>
+</table>
+<p>Finalmente, otros elementos de gran interés en la salida del modelo son los valores del DIC, WAIC, CPO y la verosimilitud marginal (<code>mlik</code>).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Argumento</th>
+<th style="text-align:left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">marginals.fixed</td>
+<td style="text-align:left">Distribuciones posteriores de los efectos fijos.</td>
+</tr>
+<tr>
+<td style="text-align:center">marginals.hyperpar</td>
+<td style="text-align:left">Distribuciones posteriores de los hiper-parámetros (parámetros asociados a la estructura de los efectos aleatorios y de los hiperparámetros de la verosimilitud).</td>
+</tr>
+<tr>
+<td style="text-align:center">marginals.random</td>
+<td style="text-align:left">Distribuciones posteriores para cada uno de los elementos (nodos) de los efectos aleatorios.</td>
+</tr>
+<tr>
+<td style="text-align:center">mlik</td>
+<td style="text-align:left">Verosimilitud marginal para la distintas verosimilitudes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-modelo-gaussiano-con-factores">2. Modelo Gaussiano con factores</h2>
+<p>En este caso vamos a exponer como se pueden tratar de analizar datos con variables explicativas que son factores con INLA. El modelo del que simularemos los datos es el siguiente</p>
+
+<span class="math align-center">
+$$\begin{array}{c}
+y_i\sim N(\mu_i,\tau),\\
+\mu_i = \eta_i = \beta_0 + \sum_{f=1}^{F}\beta_{f} \cdot x_{if},
+\end{array}$$
+</span>
+<p>donde 
+<span class="math align-center">$\beta_0$</span> es el interceptor, 
+<span class="math align-center">$\beta_f$</span> es el parámetro realativo al efecto de la variable explicativa 
+<span class="math align-center">$\mathbf{X}$</span>. En este caso 
+<span class="math align-center">$\mathbf{X}$</span> es una variable de tipo factor que, en general, tiene 
+<span class="math align-center">$f=\{1,...,F\}$</span> niveles, tal que 
+<span class="math align-center">$(\forall i) (\exists! f) : \left\lbrace x_{if}=1 \wedge x_{i,-f}=\mathbf{0}\right\rbrace$</span>. Por tanto, para cada observación sólo uno de estos niveles tiene asociado un valor . El código que podríamos utilizar para simular este modelo es el presentado en el siguiente bloque de código.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_0</span> <span class="o">&lt;-</span> <span class="m">-2</span>
+</span></span><span class="line"><span class="cl"><span class="n">beta_1</span> <span class="o">&lt;-</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">lin_pred</span> <span class="o">&lt;-</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span><span class="o">*</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1E2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">lin_pred</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span></code></pre></div><p>Antes de organizar la información de los datos podemos especificar la fórmula del modelo,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">formula_inla</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">~</span> <span class="m">-1</span> <span class="o">+</span> <span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span>
+</span></span></code></pre></div><h2 id="3-modelo-gaussiano-con-efectos-aleatorios">3. Modelo Gaussiano con efectos aleatorios</h2>
+<h3 id="31-efectos-aleatorios-no-estructurados-iid">3.1 Efectos aleatorios no-estructurados (<em>iid</em>)</h3>
+<h3 id="32-efectos-aleatorios-estructurados-en-una-dimensión-rw-ar-y-spde">3.2 Efectos aleatorios estructurados en una dimensión (<em>rw</em>, <em>ar</em> y <em>spde</em>)</h3>
+<h3 id="33-efectos-aleatorios-estructurados-en-dos-dimensiones-besag-y-spde">3.3 Efectos aleatorios estructurados en dos dimensiones (<em>besag</em> y <em>spde</em>)</h3>
 
             <footer class="footline">
             </footer>
@@ -79,6 +266,35 @@
     <script src="../../../../js/clipboard.min.js" defer></script>
     <script src="../../../../js/perfect-scrollbar.min.js" defer></script>
     <script src="../../../../js/featherlight.min.js" defer></script>
+    <script>
+      function useMathJax( config ){
+        if( !Object.assign ){
+          
+          return;
+        }
+        window.MathJax = Object.assign( window.MathJax || {}, {
+          loader: {
+            load: ['[tex]/mhchem']
+          },
+          startup: {
+            elements: [
+              '.math'
+            ]
+          },
+          tex: {
+            inlineMath: [
+              ['$', '$'], 
+              ['\\(', '\\)']
+            ]
+          },
+          options: {
+            enableMenu: false 
+          }
+        }, config );
+      }
+      useMathJax( JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="../../../../js/mathjax/tex-mml-chtml.js"></script>
     <script src="../../../../js/jquery.svg.pan.zoom.js" defer></script>
     <script src="../../../../js/mermaid.min.js" defer></script>
     <script>

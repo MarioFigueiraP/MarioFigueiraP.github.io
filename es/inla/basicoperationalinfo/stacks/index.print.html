@@ -384,7 +384,13 @@
 </span></span><span class="line"><span class="cl">    <span class="n">family</span><span class="o">=</span><span class="s">&#34;gaussian&#34;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nf">inla.stack.data</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">    <span class="n">control.predictor</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="nf">inla.stack.A</span><span class="p">(</span><span class="n">inf_stack</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">  <span class="p">)</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="3-funciones-extras-para-los-stacks">3. Funciones extras para los <em>stacks</em></h2>
+<p>Otras funciones que podemos utilizar sobre los <em>stacks</em> son <code>inla.stack.index(...)</code>, <code>inla.stack.LHS(...)</code> y <code>inla.stack.RHS(...)</code>.</p>
+<p>La primera función requiere de dos argumentos, el <code>stack</code> y la etiqueta <code>tag</code> para la extracción de índices de los datos y los efectos. Esto es, si consideramos algunos de los ejemplos previos podríamos emplear esta función como</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">index</span> <span class="o">&lt;-</span> <span class="nf">inla.stack.index</span><span class="p">(</span><span class="n">stack</span><span class="o">=</span><span class="n">inf_stack</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s">&#34;inf_stack&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>El cual devuelve una lista con dos elementos, <code>data</code> y <code>effects</code>, con los correspondientes índices de los datos y los efectos que podemos emplear para extraerlos de la salida del ajuste del modelo para el predictor lineal.</p>
+<p>Las otras dos funciones permite extraer los valores de los elementos del lado izquierdo de la fórmula (<code>inla.stack.LHS(...)</code>) y los del lado derecho (<code>inla.stack.RHS(...)</code>). En ambos casos sólo se necesita especificar el <em>stack</em> sobre el que se aplicará la función.</p>
+
             <footer class="footline">
             </footer>
           </article>

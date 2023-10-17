@@ -11,7 +11,8 @@
       <link>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://MarioFigueiraP.github.io/es/inla/basicoperationalinfo/linearmodels/index.html</guid>
-      <description>En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así exponer cómo operar con R-INLA. A lo largo de los ejemplos se comentará el código empleado y se tratará de explicar el funcionamiento de las funciones empleadas relativas al paquete R-INLA.</description>
+      <description>Información de versiones En este rótulo inicial exponemos una lista con las versiones de los programas, sistema operativo y librearías con las que se ha ejecutado el código de la presente sección, lo cual se extrae principalmente mediante la función sessionInfo().
+SO (version): Windows 11 Home (22H2). R: 4.2.3 (2023-03-15 ucrt). RStudio: 2023.06.2 (Build 561). Libraries: INLA: INLA_23.04.24 En esta sección se expondrán distintos ejemplos de modelos sencillos con datos simulados, para así mostrar cómo operar con R-INLA.</description>
     </item>
     <item>
       <title>Stacks</title>
