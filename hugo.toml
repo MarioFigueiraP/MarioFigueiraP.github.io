@@ -1,0 +1,35 @@
+baseURL = "https://mariofigueirap.github.io/"
+languageCode = "en-us"
+title = "Mario Figueira"
+theme = "relearn"
+defaultContentLanguage = "en"
+
+# EDIT ME: a short description used in the <meta name="description"> tag
+[params]
+  description = "Documentation for Bayesian Statistics"
+
+# Needed so the Relearn theme (and our custom homepage) can render raw HTML
+# safely from Markdown/data files.
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# Optional: languages block if you keep the EN/ES switcher from your current site.
+# Remove this whole block if you only need one language.
+[languages]
+  [languages.en]
+    languageName = "English"
+    weight = 1
+  [languages.es]
+    languageName = "Español"
+    weight = 2
+
+# Top navigation shortcuts shown by Relearn on documentation pages
+# (your custom homepage has its own nav defined in layouts/index.html,
+# this only affects the /inla/... doc pages)
+[[menu.shortcuts]]
+  name = "GitHub"
+  identifier = "github"
+  url = "https://github.com/MarioFigueiraP"
+  weight = 10

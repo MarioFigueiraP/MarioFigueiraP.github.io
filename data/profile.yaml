@@ -1,0 +1,231 @@
+# Save as: data/profile.yaml
+# Edit the values below to update the homepage. No HTML editing needed.
+
+hero:
+  name: "Mario Figueira"
+  tagline: "Post-doctoral Reseacher, Population Biology Unit — Swiss Ornithological Institute (Vogelwarte)"
+  lead: >
+    I build reproducible Bayesian models for spatial and spatio-temporal processes using INLA, inlabru, and MCMC 
+    to turn scattered observations into insights on how phenomena vary across space and time. For highly specialized 
+    and complex models, I custom-code Bayesian solvers using deterministic, stochastic, or hybrid approaches to explore
+    posterior distributions. 
+  links:
+    - label: "Tutorials & Short Notes"
+      url: "/Tutorials_Notes/"
+      primary: true
+    - label: "GitHub"
+      url: "https://github.com/MarioFigueiraP"
+      primary: false
+    - label: "ORCID"
+      url: "https://orcid.org/0009-0004-4627-0572"
+      primary: false
+
+research:
+  heading: "Research"
+  intro: >
+    My work focuses on computational statistics and Bayesian inference. These two pillars have allowed me to develop 
+    novel space-time models, focusing both on the classical analysis of species distribution models and on the 
+    spatio-temporal analysis of compositional data—particularly through my collaboration on the European project 
+    LAMASUS (Land Use and Management) for land-use analysis.
+  topics:
+    - title: "INLA & inlabru"
+      description: "Fast, approximate Bayesian inference for latent Gaussian models."
+    - title: "MCMC"
+      description: "Markov Chain Monte Carlo methods, diagnostics, and convergence checks."
+    - title: "Spatial & spatio-temporal models"
+      description: "SPDE-FEM approaches for building geostatistical, discrete graphical and point process models."
+    - title: "Hierarchical modeling"
+      description: "Hierarchical structures for irregular and complex real-world data."
+
+publications:
+  heading: "Publications"
+  summary: ""   # optional short line, e.g. citation count — leave blank to hide
+
+  # Shown first, full-width — your handful of highlight papers.
+  selected:
+    - title: "Distributed and recursive Bayesian inference for Big Data and complex spatio-temporal models"
+      venue: "arXiv [stat.ME], 2607.23396. 25 Jul 2026."
+      url: "https://arxiv.org/abs/2607.23396"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+        - name: "Rue, H."
+
+    - title: "INLA-RF: A Hybrid Modeling Strategy for Spatio-Temporal Environmental Data"
+      venue: "arXiv [stat.ME], 2506.00221. July 24, 2025."
+      url: "https://arxiv.org/abs/2507.18488"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Cameletti, M."
+        - name: "Patelli, L."
+
+    - title: "Integrating Expert Knowledge and Recursive Bayesian Inference: A Framework for Spatial and Spatio-Temporal Data Challenges"
+      venue: "arXiv [stat.ME], 2506.00221. May 30, 2025."
+      url: "https://arxiv.org/abs/2506.00221"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+        - name: "Rue, H."
+
+  # Shown below, in two side-by-side columns.
+  published:
+    - title: "A computationally efficient procedure for combining ecological datasets by means of sequential consensus inference"
+      venue: "Volume 32, pages 495–521, 2025"
+      url: "https://doi.org/10.1007/s10651-025-00653-x"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López-Quílez, A."
+        - name: "Paradinas, I."
+
+    - title: "Unveiling Land Use Dynamics: Insights from a Hierarchical Bayesian Spatio-Temporal Modelling of Compositional Data"
+      venue: "JABES 30, 283–308, 2025"
+      url: "https://doi.org/10.1007/s13253-025-00678-6"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Guarner, C."
+        - name: "Conesa, D."
+        - name: "López-Quílez, A."
+        - name: "Krisztin, T."
+
+    - title: "Bayesian feedback in the framework of ecological sciences"
+      venue: "Ecological Informatics, Volume 84, 2024, 102858, ISSN 1574-9541"
+      url: "https://doi.org/10.1016/j.ecoinf.2024.102858"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Barber, X."
+        - name: "Conesa, D."
+        - name: "López-Quílez, A."
+        - name: "Martínez-Minaya, J."
+        - name: "Paradinas, I."
+        - name: "Pennino, G. M."
+
+    - title: "A Shiny R app for spatial analysis of Species Distribution Models"
+      venue: "Ecological Informatics, Volume 80, 2024, 102542, ISSN 1574-9541"
+      url: "https://doi.org/10.1016/j.ecoinf.2024.102542"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+
+    - title: "Bayesian hierarchical modelling of the geospatial distribution of fasciolosis in dairy cattle and the impact on production: Application to the main milk-producing region (Galicia) in Spain"
+      venue: "Veterinary Parasitology, Volume 325, 2024, 110091, ISSN 0304-4017"
+      url: "https://doi.org/10.1016/j.vetpar.2023.110091"
+      authors:
+        - name: "González-Warleta, M."
+        - name: "Castro-Hermida, J. A."
+        - name: "Figueira, M."
+          main: true
+        - name: "López, J."
+        - name: "Conesa, D."
+        - name: "López-Quílez, A."
+        - name: "Ubeira, M. U."
+        - name: "Mezo, M."
+        
+    # - title: "Second published paper"
+    #   venue: "Journal Name, 2023"
+    #   url: "https://doi.org/..."
+
+  preprints:
+    - title: "Distributed and recursive Bayesian inference for Big Data and complex spatio-temporal models"
+      venue: "arXiv [stat.ME], 2607.23396. 25 Jul 2026."
+      url: "https://arxiv.org/abs/2607.23396"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+        - name: "Rue, H."
+
+    - title: "INLA-RF: A Hybrid Modeling Strategy for Spatio-Temporal Environmental Data"
+      venue: "arXiv [stat.ME], 2506.00221. July 24, 2025."
+      url: "https://arxiv.org/abs/2507.18488"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Cameletti, M."
+        - name: "Patelli, L."
+
+    - title: "Integrating Expert Knowledge and Recursive Bayesian Inference: A Framework for Spatial and Spatio-Temporal Data Challenges"
+      venue: "arXiv [stat.ME], 2506.00221. May 30, 2025."
+      url: "https://arxiv.org/abs/2506.00221"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+        - name: "Rue, H."
+
+    - title: "Length-based spatially explicit species distribution model"
+      venue: "Authorea, February 13, 2025"
+      url: "https://doi.org/10.22541/au.173946297.77881647/v1"
+      authors:
+        - name: "Paradinas, I."
+        - name: "Figueira, M."
+          main: true
+          
+    - title: "How to perform modeling with independent and preferential data jointly?"
+      venue: "Authorea, July 17, 2023"
+      url: "https://www.authorea.com/users/640234/articles/655188-how-to-perform-modeling-withindependent-and-preferential-data-jointly"
+      authors:
+        - name: "Figueira, M."
+          main: true
+        - name: "Conesa, D."
+        - name: "López'Quílez, A."
+        - name: "Paradinas, I."
+    # - title: "Second preprint"
+    #   venue: "bioRxiv, 2025"
+    #   url: "https://doi.org/..."
+
+software:
+  heading: "Software & tutorials"
+  intro: >
+    Guides paired with working code and data, built so the material is
+    directly reusable rather than purely descriptive.
+  items:
+    - title: "INLA guides"
+      description: "Basic operations, mesh construction, and advanced features."
+      url: "/inla/"
+    - title: "inlabru"
+      description: "Worked examples for spatial and spatio-temporal fitting."
+      url: "/inlabru/"
+
+career:
+  heading: "Career"
+  items:
+    - date: "16/02/2026 — 15/02/2028"
+      title: "Post-doctoral Researcher, Population Biology Unit."
+      place: "Swiss Ornithological Institute (Vogelwarte), Switzerland."
+    - date: "28/10/2023 — 21/01/2026"
+      title: "PhD Candidate, Statistics and Optimization."
+      place: "University of Valencia, Spain."
+    - date: "2021 — 2023"
+      title: "Master in Biostatistics."
+      place: "University of Valencia, Spain."
+    - date: "2015 — 2019"
+      title: "Bacherlor in Physics."
+      place: "University of Santiogo of Compostela, Spain."
+
+    # - date: "2021 — 2023"
+    #   title: "MSc in Statistics"
+    #   place: "Your university"
+
+cv:
+  heading: "CV"
+  description: "Full education, research, and technical background."
+  pdf_url: "/CV_Figueira.pdf"   # place the PDF in static/ with this filename
+
+contact:
+  email: "mailto:mario.figueira-pereira@vogelwarte.ch"
+  github: "https://github.com/MarioFigueiraP"
+  orcid: "https://orcid.org/0009-0004-4627-0572"      # e.g. "https://orcid.org/0000-0000-0000-0000"
+  scholar: "https://scholar.google.com/citations?user=GGxlMNwAAAAJ&hl=en&oi=ao"    # e.g. your Google Scholar profile URL

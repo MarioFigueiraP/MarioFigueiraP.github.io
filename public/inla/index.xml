@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>INLA :: Mario Figueira</title>
+    <link>http://localhost:1313/inla/index.html</link>
+    <description>INLA (Integrated Nested Laplace Approximation) This chapter covers INLA and inlabru. Add your existing pages (Basic Operations, Extensions, Spatial Models, etc.) here exactly as they were structured in your current site — moving this folder’s content over doesn’t require any changes to how Relearn renders it.</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/inla/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
