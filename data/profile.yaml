@@ -50,7 +50,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
         - name: "Rue, H."
 
     - title: "INLA-RF: A Hybrid Modeling Strategy for Spatio-Temporal Environmental Data"
@@ -69,7 +69,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
         - name: "Rue, H."
 
   # Shown below, in two side-by-side columns.
@@ -115,7 +115,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
 
     - title: "Bayesian hierarchical modelling of the geospatial distribution of fasciolosis in dairy cattle and the impact on production: Application to the main milk-producing region (Galicia) in Spain"
       venue: "Veterinary Parasitology, Volume 325, 2024, 110091, ISSN 0304-4017"
@@ -143,7 +143,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
         - name: "Rue, H."
 
     - title: "INLA-RF: A Hybrid Modeling Strategy for Spatio-Temporal Environmental Data"
@@ -162,7 +162,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
         - name: "Rue, H."
 
     - title: "Length-based spatially explicit species distribution model"
@@ -180,7 +180,7 @@ publications:
         - name: "Figueira, M."
           main: true
         - name: "Conesa, D."
-        - name: "López'Quílez, A."
+        - name: "López-Quílez, A."
         - name: "Paradinas, I."
     # - title: "Second preprint"
     #   venue: "bioRxiv, 2025"
